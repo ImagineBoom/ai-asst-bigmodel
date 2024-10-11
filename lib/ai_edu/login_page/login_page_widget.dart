@@ -512,22 +512,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      Flexible(
-                                                        child: Text(
-                                                          'AI小助',
-                                                          maxLines: 2,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .headlineLarge
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Plus Jakarta Sans',
-                                                                fontSize: 66.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsetsDirectional
@@ -545,6 +529,22 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 fontFamily:
                                                                     'Noto Sans',
                                                                 fontSize: 40.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          'AI小助',
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .headlineLarge
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Plus Jakarta Sans',
+                                                                fontSize: 66.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),

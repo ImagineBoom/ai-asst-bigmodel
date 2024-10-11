@@ -11,6 +11,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,6 +60,10 @@ class _ExamDetailWidgetState extends State<ExamDetailWidget> {
             backgroundColor: FlutterFlowTheme.of(context).secondary,
           ),
         );
+        safeSetState(() => _model.apiRequestCompleter2 = null);
+        await _model.waitForApiRequestCompleted2();
+        safeSetState(() => _model.apiRequestCompleter1 = null);
+        await _model.waitForApiRequestCompleted1();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -96,9 +101,11 @@ class _ExamDetailWidgetState extends State<ExamDetailWidget> {
       FlutterFlowTheme.of(context).error
     ];
     return FutureBuilder<ApiCallResponse>(
-      future: VictoryGroup.getQuestionCall.call(
-        id: widget!.asstExamBankID,
-      ),
+      future: (_model.apiRequestCompleter2 ??= Completer<ApiCallResponse>()
+            ..complete(VictoryGroup.getQuestionCall.call(
+              id: widget!.asstExamBankID,
+            )))
+          .future,
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -433,9 +440,12 @@ class _ExamDetailWidgetState extends State<ExamDetailWidget> {
                                                           Expanded(
                                                             child: FutureBuilder<
                                                                 ApiCallResponse>(
-                                                              future: VictoryGroup
-                                                                  .getAllQuestionsCall
-                                                                  .call(),
+                                                              future: (_model.apiRequestCompleter1 ??= Completer<
+                                                                      ApiCallResponse>()
+                                                                    ..complete(VictoryGroup
+                                                                        .getAllQuestionsCall
+                                                                        .call()))
+                                                                  .future,
                                                               builder: (context,
                                                                   snapshot) {
                                                                 // Customize what your widget looks like when it's loading.

@@ -11,6 +11,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'dart:async';
 import 'exam_detail_widget.dart' show ExamDetailWidget;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -22,6 +23,8 @@ class ExamDetailModel extends FlutterFlowModel<ExamDetailWidget> {
 
   // Stores action output result for [Backend Call - API (createChart)] action in ExamDetail widget.
   ApiCallResponse? apiResulAIChart;
+  Completer<ApiCallResponse>? apiRequestCompleter2;
+  Completer<ApiCallResponse>? apiRequestCompleter1;
   // Model for Menu component.
   late MenuModel menuModel;
   // Model for Header component.
@@ -79,5 +82,36 @@ class ExamDetailModel extends FlutterFlowModel<ExamDetailWidget> {
     subHeaderModel.dispose();
     paginatedDataTableController1.dispose();
     paginatedDataTableController2.dispose();
+  }
+
+  /// Additional helper methods.
+  Future waitForApiRequestCompleted2({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = apiRequestCompleter2?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
+  }
+
+  Future waitForApiRequestCompleted1({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = apiRequestCompleter1?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
   }
 }

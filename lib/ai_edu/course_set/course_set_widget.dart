@@ -63,9 +63,11 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
     context.watch<FFAppState>();
 
     return FutureBuilder<ApiCallResponse>(
-      future: AsstExamBankListCall.call(
-        asstExamSubjectId: widget!.subjectID,
-      ),
+      future: (_model.apiRequestCompleter ??= Completer<ApiCallResponse>()
+            ..complete(AsstExamBankListCall.call(
+              asstExamSubjectId: widget!.subjectID,
+            )))
+          .future,
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -158,7 +160,7 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                 updateCallback: () =>
                                                     safeSetState(() {}),
                                                 child: SubHeaderWidget(
-                                                  title: '智能批阅板块',
+                                                  title: '智能批阅板块-2.考试列表',
                                                   showBackBtn: true,
                                                 ),
                                               ),
@@ -284,7 +286,7 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                                           hidesUnderline:
                                                                               true,
                                                                           disabled:
-                                                                              false,
+                                                                              true,
                                                                           isSearchable:
                                                                               false,
                                                                           isMultiSelect:
@@ -326,7 +328,7 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                               MainAxisSize.max,
                                                           children: [
                                                             Text(
-                                                              '移除课程',
+                                                              '移除考试',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -344,8 +346,10 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                               borderRadius: 4.0,
                                                               borderWidth: 1.0,
                                                               buttonSize: 40.0,
-                                                              fillColor: Color(
-                                                                  0xFF8633F4),
+                                                              fillColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .alternate,
                                                               icon: FaIcon(
                                                                 FontAwesomeIcons
                                                                     .minus,
@@ -354,38 +358,36 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                                     .primaryBackground,
                                                                 size: 12.0,
                                                               ),
-                                                              onPressed:
-                                                                  () async {
-                                                                unawaited(
-                                                                  () async {
-                                                                    await showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (alertDialogContext) {
-                                                                        return AlertDialog(
-                                                                          title:
-                                                                              Text('暂未添加'),
-                                                                          content:
-                                                                              Text('给程序员加个🍗吧'),
-                                                                          actions: [
-                                                                            TextButton(
-                                                                              onPressed: () => Navigator.pop(alertDialogContext),
-                                                                              child: Text('Ok'),
-                                                                            ),
-                                                                          ],
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  }(),
-                                                                );
-                                                                await Future.delayed(
-                                                                    const Duration(
-                                                                        milliseconds:
-                                                                            1000));
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
+                                                              onPressed: true
+                                                                  ? null
+                                                                  : () async {
+                                                                      unawaited(
+                                                                        () async {
+                                                                          await showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (alertDialogContext) {
+                                                                              return AlertDialog(
+                                                                                title: Text('暂未添加'),
+                                                                                content: Text('给程序员加个🍗吧'),
+                                                                                actions: [
+                                                                                  TextButton(
+                                                                                    onPressed: () => Navigator.pop(alertDialogContext),
+                                                                                    child: Text('Ok'),
+                                                                                  ),
+                                                                                ],
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        }(),
+                                                                      );
+                                                                      await Future.delayed(const Duration(
+                                                                          milliseconds:
+                                                                              1000));
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
                                                             ),
                                                             Container(
                                                               width: 50.0,
@@ -394,7 +396,7 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                                   BoxDecoration(),
                                                             ),
                                                             Text(
-                                                              '增加课程',
+                                                              '增加考试',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -1067,146 +1069,101 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                                 16.0),
                                                       ),
                                                     ),
-                                                    child: FutureBuilder<
-                                                        ApiCallResponse>(
-                                                      future: (_model
-                                                                  .apiRequestCompleter ??=
-                                                              Completer<
-                                                                  ApiCallResponse>()
-                                                                ..complete(
-                                                                    AsstExamBankListCall
-                                                                        .call(
-                                                                  asstExamSubjectId:
-                                                                      widget!
-                                                                          .subjectID,
-                                                                )))
-                                                          .future,
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        // Customize what your widget looks like when it's loading.
-                                                        if (!snapshot.hasData) {
-                                                          return Center(
-                                                            child: SizedBox(
-                                                              width: 50.0,
-                                                              height: 50.0,
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                valueColor:
-                                                                    AlwaysStoppedAnimation<
-                                                                        Color>(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }
-                                                        final listViewAsstExamBankListResponse =
-                                                            snapshot.data!;
+                                                    child: Builder(
+                                                      builder: (context) {
+                                                        final examBanks = AsstExamBankListCall
+                                                                    .asstBankList(
+                                                              courseSetAsstExamBankListResponse
+                                                                  .jsonBody,
+                                                            )
+                                                                ?.map((e) =>
+                                                                    ExamBankStruct
+                                                                        .maybeFromMap(
+                                                                            e))
+                                                                .withoutNulls
+                                                                .toList()
+                                                                ?.toList() ??
+                                                            [];
 
-                                                        return Builder(
-                                                          builder: (context) {
-                                                            final examBanks = AsstExamBankListCall
-                                                                        .asstBankList(
-                                                                  courseSetAsstExamBankListResponse
-                                                                      .jsonBody,
-                                                                )
-                                                                    ?.map((e) =>
-                                                                        ExamBankStruct
-                                                                            .maybeFromMap(e))
-                                                                    .withoutNulls
-                                                                    .toList()
-                                                                    ?.toList() ??
-                                                                [];
-
-                                                            return RefreshIndicator(
-                                                              onRefresh:
-                                                                  () async {
-                                                                safeSetState(() =>
-                                                                    _model.apiRequestCompleter =
-                                                                        null);
-                                                                await _model
-                                                                    .waitForApiRequestCompleted();
-                                                              },
-                                                              child: ListView
-                                                                  .builder(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .zero,
-                                                                shrinkWrap:
-                                                                    true,
-                                                                scrollDirection:
-                                                                    Axis.vertical,
-                                                                itemCount:
-                                                                    examBanks
-                                                                        .length,
-                                                                itemBuilder:
-                                                                    (context,
-                                                                        examBanksIndex) {
-                                                                  final examBanksItem =
-                                                                      examBanks[
-                                                                          examBanksIndex];
-                                                                  return InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    focusColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    hoverColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    highlightColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap:
-                                                                        () async {
-                                                                      _model.selectedBankID =
-                                                                          examBanksItem
-                                                                              .id;
-                                                                      safeSetState(
-                                                                          () {});
-                                                                    },
-                                                                    child:
-                                                                        wrapWithModel(
-                                                                      model: _model
-                                                                          .examBankItemModels
-                                                                          .getModel(
-                                                                        examBanksItem
-                                                                            .id
-                                                                            .toString(),
-                                                                        examBanksIndex,
-                                                                      ),
-                                                                      updateCallback:
-                                                                          () =>
-                                                                              safeSetState(() {}),
-                                                                      child:
-                                                                          ExamBankItemWidget(
-                                                                        key:
-                                                                            Key(
-                                                                          'Key8p8_${examBanksItem.id.toString()}',
-                                                                        ),
-                                                                        name: examBanksItem
-                                                                            .name,
-                                                                        ifSelect:
-                                                                            examBanksItem.id ==
-                                                                                _model.selectedBankID,
-                                                                        asstExamBankId:
-                                                                            examBanksItem.id,
-                                                                        asstInfoTeacherId:
-                                                                            FFAppState().teacherID,
-                                                                        group: widget!
-                                                                            .group!,
-                                                                        asstInfoStudentId:
-                                                                            1,
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            );
+                                                        return RefreshIndicator(
+                                                          onRefresh: () async {
+                                                            safeSetState(() =>
+                                                                _model.apiRequestCompleter =
+                                                                    null);
+                                                            await _model
+                                                                .waitForApiRequestCompleted();
                                                           },
+                                                          child:
+                                                              ListView.builder(
+                                                            padding:
+                                                                EdgeInsets.zero,
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.vertical,
+                                                            itemCount: examBanks
+                                                                .length,
+                                                            itemBuilder: (context,
+                                                                examBanksIndex) {
+                                                              final examBanksItem =
+                                                                  examBanks[
+                                                                      examBanksIndex];
+                                                              return InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  _model.selectedBankID =
+                                                                      examBanksItem
+                                                                          .id;
+                                                                  safeSetState(
+                                                                      () {});
+                                                                },
+                                                                child:
+                                                                    wrapWithModel(
+                                                                  model: _model
+                                                                      .examBankItemModels
+                                                                      .getModel(
+                                                                    examBanksItem
+                                                                        .id
+                                                                        .toString(),
+                                                                    examBanksIndex,
+                                                                  ),
+                                                                  updateCallback: () =>
+                                                                      safeSetState(
+                                                                          () {}),
+                                                                  child:
+                                                                      ExamBankItemWidget(
+                                                                    key: Key(
+                                                                      'Key8p8_${examBanksItem.id.toString()}',
+                                                                    ),
+                                                                    name: examBanksItem
+                                                                        .name,
+                                                                    ifSelect: examBanksItem
+                                                                            .id ==
+                                                                        _model
+                                                                            .selectedBankID,
+                                                                    asstExamBankId:
+                                                                        examBanksItem
+                                                                            .id,
+                                                                    asstInfoTeacherId:
+                                                                        FFAppState()
+                                                                            .teacherID,
+                                                                    group: widget!
+                                                                        .group!,
+                                                                    asstInfoStudentId:
+                                                                        1,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
                                                         );
                                                       },
                                                     ),

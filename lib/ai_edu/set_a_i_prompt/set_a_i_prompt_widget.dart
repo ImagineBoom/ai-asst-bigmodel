@@ -12,7 +12,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -46,36 +45,21 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.apiResultDimensionList = await DimensionGroup.listCall.call();
-
-      if ((_model.apiResultDimensionList?.succeeded ?? true)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '查询维度成功！',
-              style: TextStyle(
-                color: FlutterFlowTheme.of(context).primaryText,
-              ),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'AI生成维度成功！',
+            style: TextStyle(
+              color: FlutterFlowTheme.of(context).primaryText,
             ),
-            duration: Duration(milliseconds: 4000),
-            backgroundColor: FlutterFlowTheme.of(context).secondary,
           ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '查询维度失败！',
-              style: TextStyle(
-                color: FlutterFlowTheme.of(context).primaryText,
-              ),
-            ),
-            duration: Duration(milliseconds: 4000),
-            backgroundColor: FlutterFlowTheme.of(context).secondary,
-          ),
-        );
-      }
+          duration: Duration(milliseconds: 4000),
+          backgroundColor: FlutterFlowTheme.of(context).secondary,
+        ),
+      );
     });
+
+    _model.textFieldFocusNode ??= FocusNode();
 
     _model.dimensionTextFieldTextController ??= TextEditingController();
     _model.dimensionTextFieldFocusNode ??= FocusNode();
@@ -104,7 +88,11 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
     context.watch<FFAppState>();
 
     return FutureBuilder<ApiCallResponse>(
-      future: DimensionGroup.listCall.call(),
+      future: FFAppState().generateDimension(
+        requestFn: () => VictoryGroup.giveDimensionCall.call(
+          id: widget!.asstExamBankID,
+        ),
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -123,7 +111,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
             ),
           );
         }
-        final setAIPromptListResponse = snapshot.data!;
+        final setAIPromptGiveDimensionResponse = snapshot.data!;
 
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -207,7 +195,8 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                       updateCallback: () =>
                                                           safeSetState(() {}),
                                                       child: SubHeaderWidget(
-                                                        title: '智能批阅板块-维度设置',
+                                                        title:
+                                                            '智能批阅板块-4. AI 分析维度设置',
                                                         showBackBtn: true,
                                                       ),
                                                     ),
@@ -443,7 +432,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               borderRadius: 8.0,
                                                                               margin: EdgeInsets.all(4.0),
                                                                               hidesUnderline: true,
-                                                                              disabled: false,
+                                                                              disabled: true,
                                                                               isSearchable: false,
                                                                               isMultiSelect: false,
                                                                             ),
@@ -462,13 +451,8 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                             children: [
                                                               FFButtonWidget(
                                                                 onPressed:
-                                                                    () async {
-                                                                  _model.ifSetDimension =
-                                                                      true;
-                                                                  safeSetState(
-                                                                      () {});
-                                                                },
-                                                                text: 'New',
+                                                                    () async {},
+                                                                text: '新增维度',
                                                                 icon: Icon(
                                                                   Icons.add,
                                                                   color: FlutterFlowTheme.of(
@@ -478,7 +462,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                 ),
                                                                 options:
                                                                     FFButtonOptions(
-                                                                  width: 100.0,
+                                                                  width: 125.0,
                                                                   height: 40.0,
                                                                   padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
@@ -492,7 +476,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               0.0),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primary,
+                                                                      .secondaryText,
                                                                   textStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelLarge
@@ -546,7 +530,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                           0.0),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primary,
+                                                                      .alternate,
                                                                   textStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .titleSmall
@@ -589,7 +573,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                           0.0),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primary,
+                                                                      .alternate,
                                                                   textStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .titleSmall
@@ -631,13 +615,13 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                   10.0),
                                                       child: Builder(
                                                         builder: (context) {
-                                                          final coreFields = DimensionGroup
-                                                                  .listCall
+                                                          final coreFields = VictoryGroup
+                                                                  .giveDimensionCall
                                                                   .dimensionList(
-                                                                    setAIPromptListResponse
+                                                                    setAIPromptGiveDimensionResponse
                                                                         .jsonBody,
                                                                   )
-                                                                  ?.map((e) => DimensionInfoStruct
+                                                                  ?.map((e) => ExamDimensionStruct
                                                                           .maybeFromMap(
                                                                               e)
                                                                       ?.coreFieldRecall)
@@ -754,21 +738,21 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                             child: Builder(
                                                               builder:
                                                                   (context) {
-                                                                final examDimensionsList = DimensionGroup
-                                                                        .listCall
+                                                                final examDimensionsList = VictoryGroup
+                                                                        .giveDimensionCall
                                                                         .dimensionList(
-                                                                          setAIPromptListResponse
+                                                                          setAIPromptGiveDimensionResponse
                                                                               .jsonBody,
                                                                         )
                                                                         ?.map((e) =>
-                                                                            DimensionInfoStruct.maybeFromMap(e))
+                                                                            ExamDimensionStruct.maybeFromMap(e))
                                                                         .withoutNulls
                                                                         .toList()
                                                                         ?.toList() ??
                                                                     [];
 
                                                                 return FlutterFlowDataTable<
-                                                                    DimensionInfoStruct>(
+                                                                    ExamDimensionStruct>(
                                                                   controller: _model
                                                                       .paginatedDataTableController,
                                                                   data:
@@ -872,7 +856,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                     cells: [
                                                                       Text(
                                                                         examDimensionsListItem
-                                                                            .dimension,
+                                                                            .dimensionName,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium
                                                                             .override(
@@ -882,7 +866,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                       ),
                                                                       Text(
                                                                         examDimensionsListItem
-                                                                            .firstClassification,
+                                                                            .firstLevelIndex,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium
                                                                             .override(
@@ -892,7 +876,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                       ),
                                                                       Text(
                                                                         examDimensionsListItem
-                                                                            .secondClassification,
+                                                                            .secondLevelIndex,
                                                                         style: FlutterFlowTheme.of(context)
                                                                             .bodyMedium
                                                                             .override(
@@ -920,7 +904,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                         child:
                                                                             Checkbox(
                                                                           value: _model.checkboxValueMap[examDimensionsListItem] ??=
-                                                                              examDimensionsListItem.ifAnalyse,
+                                                                              true,
                                                                           onChanged:
                                                                               (newValue) async {
                                                                             safeSetState(() =>
@@ -1026,22 +1010,167 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                     .primary,
                                                               ),
                                                             ),
-                                                            child: Align(
-                                                              alignment:
-                                                                  AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              child: Text(
-                                                                '考试标答或要点：',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
+                                                            child: FutureBuilder<
+                                                                ApiCallResponse>(
+                                                              future: _model
+                                                                  .getQuestion(
+                                                                requestFn: () =>
+                                                                    VictoryGroup
+                                                                        .getQuestionCall
+                                                                        .call(
+                                                                  id: widget!
+                                                                      .asstExamBankID,
+                                                                ),
                                                               ),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                // Customize what your widget looks like when it's loading.
+                                                                if (!snapshot
+                                                                    .hasData) {
+                                                                  return Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                      width:
+                                                                          50.0,
+                                                                      height:
+                                                                          50.0,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        valueColor:
+                                                                            AlwaysStoppedAnimation<Color>(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                                final textFieldGetQuestionResponse =
+                                                                    snapshot
+                                                                        .data!;
+
+                                                                return Container(
+                                                                  width: 200.0,
+                                                                  child:
+                                                                      TextFormField(
+                                                                    controller:
+                                                                        _model.textController1 ??=
+                                                                            TextEditingController(
+                                                                      text: VictoryGroup
+                                                                          .getQuestionCall
+                                                                          .standardAnswer(
+                                                                        textFieldGetQuestionResponse
+                                                                            .jsonBody,
+                                                                      ),
+                                                                    ),
+                                                                    focusNode:
+                                                                        _model
+                                                                            .textFieldFocusNode,
+                                                                    autofocus:
+                                                                        false,
+                                                                    readOnly:
+                                                                        true,
+                                                                    obscureText:
+                                                                        false,
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      isDense:
+                                                                          true,
+                                                                      labelStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Plus Jakarta Sans',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                      hintText:
+                                                                          'TextField',
+                                                                      hintStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .labelMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Plus Jakarta Sans',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                      enabledBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              Color(0x00000000),
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              Color(0x00000000),
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
+                                                                      errorBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).error,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
+                                                                      focusedErrorBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).error,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
+                                                                      filled:
+                                                                          true,
+                                                                      fillColor:
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .secondaryBackground,
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Plus Jakarta Sans',
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                    maxLines:
+                                                                        null,
+                                                                    cursorColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                    validator: _model
+                                                                        .textController1Validator
+                                                                        .asValidator(
+                                                                            context),
+                                                                  ),
+                                                                );
+                                                              },
                                                             ),
                                                           ),
                                                         ),
@@ -1110,18 +1239,11 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                       FFButtonWidget(
                                                         onPressed: () async {
                                                           FFAppState()
-                                                                  .examPrompt =
-                                                              functions.getPromptFromDimension(
-                                                                  FFAppState()
-                                                                      .examDimensionList
-                                                                      .toList());
-                                                          FFAppState()
                                                                   .ifPreviewPrompt =
                                                               !(FFAppState()
                                                                       .ifPreviewPrompt ??
                                                                   true);
-                                                          FFAppState()
-                                                              .update(() {});
+                                                          safeSetState(() {});
                                                         },
                                                         text: 'AI指令预览',
                                                         icon: Icon(
@@ -1177,9 +1299,18 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                       FFButtonWidget(
                                                         onPressed: () async {
                                                           context.pushNamed(
-                                                              'ExamScores');
+                                                            'setStuAnswer',
+                                                            queryParameters: {
+                                                              'asstExamBankID':
+                                                                  serializeParam(
+                                                                widget!
+                                                                    .asstExamBankID,
+                                                                ParamType.int,
+                                                              ),
+                                                            }.withoutNulls,
+                                                          );
                                                         },
-                                                        text: '启动AI阅卷',
+                                                        text: '模拟学生答题',
                                                         icon: Icon(
                                                           Icons.east,
                                                           color: FlutterFlowTheme
@@ -1256,6 +1387,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                           updateCallback: () => safeSetState(() {}),
                           child: AIPromptPreviewWidget(
                             ifPreview: FFAppState().ifPreviewPrompt,
+                            asstExamBankID: widget!.asstExamBankID!,
                           ),
                         ),
                       ),

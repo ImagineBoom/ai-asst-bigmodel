@@ -3,6 +3,7 @@ import '/components/divider/divider_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:easy_debounce/easy_debounce.dart';
@@ -30,8 +31,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     super.initState();
     _model = createModel(context, () => LoginPageModel());
 
-    _model.emailTextFieldTextController ??=
-        TextEditingController(text: 'demo@tsinghua.edu.cn');
+    _model.emailTextFieldTextController ??= TextEditingController(
+        text: '${random_data.randomString(
+      10,
+      10,
+      true,
+      true,
+      true,
+    )}@tsinghua.edu.cn');
     _model.emailTextFieldFocusNode ??= FocusNode();
 
     _model.passwordTextFieldTextController ??=
@@ -147,7 +154,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              'Your AI Work Assistant',
+                                                              'AI 小助',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .displayMedium
@@ -170,13 +177,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              'Efficiency',
+                                                              '效率',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .titleMedium
                                                                   .override(
                                                                     fontFamily:
                                                                         'Plus Jakarta Sans',
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryText,
                                                                     letterSpacing:
                                                                         0.0,
                                                                   ),
@@ -464,16 +474,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                           decoration: BoxDecoration(),
                                           alignment:
                                               AlignmentDirectional(0.0, 0.0),
-                                          child: Text(
-                                            'Login',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodySmall
-                                                .override(
-                                                  fontFamily:
-                                                      'Plus Jakarta Sans',
-                                                  letterSpacing: 0.0,
-                                                ),
-                                          ),
                                         ),
                                       ],
                                     ),
@@ -514,14 +514,37 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                     children: [
                                                       Flexible(
                                                         child: Text(
-                                                          'Welcome to',
+                                                          'AI小助',
                                                           maxLines: 2,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .displaySmall
+                                                              .headlineLarge
                                                               .override(
                                                                 fontFamily:
                                                                     'Plus Jakarta Sans',
+                                                                fontSize: 66.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    20.0,
+                                                                    0.0),
+                                                        child: Text(
+                                                          '欢迎使用',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Noto Sans',
+                                                                fontSize: 40.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
@@ -533,9 +556,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      Flexible(
+                                                      Expanded(
                                                         child: Text(
                                                           'AI-Work Assistant',
+                                                          textAlign:
+                                                              TextAlign.justify,
                                                           maxLines: 2,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -543,7 +568,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               .override(
                                                                 fontFamily:
                                                                     'Readex Pro',
-                                                                fontSize: 36.0,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                                fontSize: 33.0,
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
@@ -578,7 +606,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                           children: [
                                                             Flexible(
                                                               child: Text(
-                                                                'Email',
+                                                                '邮箱',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
@@ -952,7 +980,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                               newValue!);
                                                                     },
                                                                     title: Text(
-                                                                      'Remember Me',
+                                                                      '记住用户名',
                                                                       textAlign:
                                                                           TextAlign
                                                                               .start,
@@ -1010,7 +1038,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                         0.0,
                                                                         8.0),
                                                             child: Text(
-                                                              'Forgot Password?',
+                                                              '忘记密码?',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -1101,7 +1129,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
 
                                                         safeSetState(() {});
                                                       },
-                                                      text: 'Login',
+                                                      text: '登录',
                                                       options: FFButtonOptions(
                                                         width: 250.0,
                                                         height: 50.0,
@@ -1166,8 +1194,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               print(
                                                                   'GoogleButton pressed ...');
                                                             },
-                                                            text:
-                                                                'Continue with WeChat',
+                                                            text: '微信登录',
                                                             icon: Icon(
                                                               Icons.wechat,
                                                               color: FlutterFlowTheme
@@ -1241,10 +1268,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               .transparent,
                                                           highlightColor: Colors
                                                               .transparent,
-                                                          onTap: () async {
-                                                            context.pushNamed(
-                                                                'RegisterPage');
-                                                          },
+                                                          onTap: () async {},
                                                           child: Container(
                                                             decoration:
                                                                 BoxDecoration(
@@ -1264,7 +1288,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                   children: [
                                                                     TextSpan(
                                                                       text:
-                                                                          'Don’t have any acount?  ',
+                                                                          '没有账户?  ',
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .labelMedium
@@ -1279,7 +1303,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                     ),
                                                                     TextSpan(
                                                                       text:
-                                                                          'Register',
+                                                                          '注册',
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .labelMedium

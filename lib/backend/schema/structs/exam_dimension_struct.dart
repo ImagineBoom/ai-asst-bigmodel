@@ -7,39 +7,39 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class ExamDimensionStruct extends BaseStruct {
   ExamDimensionStruct({
-    String? analyseDimension,
-    String? firstClassification,
-    String? secondClassification,
+    String? dimensionName,
+    String? firstLevelIndex,
+    String? secondLevelIndex,
     String? coreFieldRecall,
     bool? ifAnalyse,
-  })  : _analyseDimension = analyseDimension,
-        _firstClassification = firstClassification,
-        _secondClassification = secondClassification,
+  })  : _dimensionName = dimensionName,
+        _firstLevelIndex = firstLevelIndex,
+        _secondLevelIndex = secondLevelIndex,
         _coreFieldRecall = coreFieldRecall,
         _ifAnalyse = ifAnalyse;
 
-  // "analyse_dimension" field.
-  String? _analyseDimension;
-  String get analyseDimension => _analyseDimension ?? '';
-  set analyseDimension(String? val) => _analyseDimension = val;
+  // "dimension_name" field.
+  String? _dimensionName;
+  String get dimensionName => _dimensionName ?? '';
+  set dimensionName(String? val) => _dimensionName = val;
 
-  bool hasAnalyseDimension() => _analyseDimension != null;
+  bool hasDimensionName() => _dimensionName != null;
 
-  // "firstClassification" field.
-  String? _firstClassification;
-  String get firstClassification => _firstClassification ?? '';
-  set firstClassification(String? val) => _firstClassification = val;
+  // "first_level_index" field.
+  String? _firstLevelIndex;
+  String get firstLevelIndex => _firstLevelIndex ?? '';
+  set firstLevelIndex(String? val) => _firstLevelIndex = val;
 
-  bool hasFirstClassification() => _firstClassification != null;
+  bool hasFirstLevelIndex() => _firstLevelIndex != null;
 
-  // "secondClassification" field.
-  String? _secondClassification;
-  String get secondClassification => _secondClassification ?? '';
-  set secondClassification(String? val) => _secondClassification = val;
+  // "second_level_index" field.
+  String? _secondLevelIndex;
+  String get secondLevelIndex => _secondLevelIndex ?? '';
+  set secondLevelIndex(String? val) => _secondLevelIndex = val;
 
-  bool hasSecondClassification() => _secondClassification != null;
+  bool hasSecondLevelIndex() => _secondLevelIndex != null;
 
-  // "coreFieldRecall" field.
+  // "core_field_recall" field.
   String? _coreFieldRecall;
   String get coreFieldRecall => _coreFieldRecall ?? '';
   set coreFieldRecall(String? val) => _coreFieldRecall = val;
@@ -55,10 +55,10 @@ class ExamDimensionStruct extends BaseStruct {
 
   static ExamDimensionStruct fromMap(Map<String, dynamic> data) =>
       ExamDimensionStruct(
-        analyseDimension: data['analyse_dimension'] as String?,
-        firstClassification: data['firstClassification'] as String?,
-        secondClassification: data['secondClassification'] as String?,
-        coreFieldRecall: data['coreFieldRecall'] as String?,
+        dimensionName: data['dimension_name'] as String?,
+        firstLevelIndex: data['first_level_index'] as String?,
+        secondLevelIndex: data['second_level_index'] as String?,
+        coreFieldRecall: data['core_field_recall'] as String?,
         ifAnalyse: data['ifAnalyse'] as bool?,
       );
 
@@ -67,28 +67,28 @@ class ExamDimensionStruct extends BaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'analyse_dimension': _analyseDimension,
-        'firstClassification': _firstClassification,
-        'secondClassification': _secondClassification,
-        'coreFieldRecall': _coreFieldRecall,
+        'dimension_name': _dimensionName,
+        'first_level_index': _firstLevelIndex,
+        'second_level_index': _secondLevelIndex,
+        'core_field_recall': _coreFieldRecall,
         'ifAnalyse': _ifAnalyse,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'analyse_dimension': serializeParam(
-          _analyseDimension,
+        'dimension_name': serializeParam(
+          _dimensionName,
           ParamType.String,
         ),
-        'firstClassification': serializeParam(
-          _firstClassification,
+        'first_level_index': serializeParam(
+          _firstLevelIndex,
           ParamType.String,
         ),
-        'secondClassification': serializeParam(
-          _secondClassification,
+        'second_level_index': serializeParam(
+          _secondLevelIndex,
           ParamType.String,
         ),
-        'coreFieldRecall': serializeParam(
+        'core_field_recall': serializeParam(
           _coreFieldRecall,
           ParamType.String,
         ),
@@ -100,23 +100,23 @@ class ExamDimensionStruct extends BaseStruct {
 
   static ExamDimensionStruct fromSerializableMap(Map<String, dynamic> data) =>
       ExamDimensionStruct(
-        analyseDimension: deserializeParam(
-          data['analyse_dimension'],
+        dimensionName: deserializeParam(
+          data['dimension_name'],
           ParamType.String,
           false,
         ),
-        firstClassification: deserializeParam(
-          data['firstClassification'],
+        firstLevelIndex: deserializeParam(
+          data['first_level_index'],
           ParamType.String,
           false,
         ),
-        secondClassification: deserializeParam(
-          data['secondClassification'],
+        secondLevelIndex: deserializeParam(
+          data['second_level_index'],
           ParamType.String,
           false,
         ),
         coreFieldRecall: deserializeParam(
-          data['coreFieldRecall'],
+          data['core_field_recall'],
           ParamType.String,
           false,
         ),
@@ -133,34 +133,34 @@ class ExamDimensionStruct extends BaseStruct {
   @override
   bool operator ==(Object other) {
     return other is ExamDimensionStruct &&
-        analyseDimension == other.analyseDimension &&
-        firstClassification == other.firstClassification &&
-        secondClassification == other.secondClassification &&
+        dimensionName == other.dimensionName &&
+        firstLevelIndex == other.firstLevelIndex &&
+        secondLevelIndex == other.secondLevelIndex &&
         coreFieldRecall == other.coreFieldRecall &&
         ifAnalyse == other.ifAnalyse;
   }
 
   @override
   int get hashCode => const ListEquality().hash([
-        analyseDimension,
-        firstClassification,
-        secondClassification,
+        dimensionName,
+        firstLevelIndex,
+        secondLevelIndex,
         coreFieldRecall,
         ifAnalyse
       ]);
 }
 
 ExamDimensionStruct createExamDimensionStruct({
-  String? analyseDimension,
-  String? firstClassification,
-  String? secondClassification,
+  String? dimensionName,
+  String? firstLevelIndex,
+  String? secondLevelIndex,
   String? coreFieldRecall,
   bool? ifAnalyse,
 }) =>
     ExamDimensionStruct(
-      analyseDimension: analyseDimension,
-      firstClassification: firstClassification,
-      secondClassification: secondClassification,
+      dimensionName: dimensionName,
+      firstLevelIndex: firstLevelIndex,
+      secondLevelIndex: secondLevelIndex,
       coreFieldRecall: coreFieldRecall,
       ifAnalyse: ifAnalyse,
     );

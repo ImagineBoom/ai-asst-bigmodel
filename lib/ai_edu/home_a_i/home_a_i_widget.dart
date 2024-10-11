@@ -161,7 +161,7 @@ class _HomeAIWidgetState extends State<HomeAIWidget> {
                                         updateCallback: () =>
                                             safeSetState(() {}),
                                         child: SubHeaderWidget(
-                                          title: '智能批阅板块',
+                                          title: '智能批阅板块-1. 课程列表',
                                           showBackBtn:
                                               _model.menuModel.showUpgrade,
                                         ),
@@ -341,6 +341,7 @@ class _HomeAIWidgetState extends State<HomeAIWidget> {
                                                                               borderRadius: 8.0,
                                                                               margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 10.0, 4.0),
                                                                               hidesUnderline: true,
+                                                                              disabled: true,
                                                                               isSearchable: false,
                                                                               isMultiSelect: false,
                                                                             ),
@@ -414,6 +415,7 @@ class _HomeAIWidgetState extends State<HomeAIWidget> {
                                                                               borderRadius: 8.0,
                                                                               margin: EdgeInsetsDirectional.fromSTEB(14.0, 4.0, 10.0, 4.0),
                                                                               hidesUnderline: true,
+                                                                              disabled: true,
                                                                               isSearchable: false,
                                                                               isMultiSelect: false,
                                                                             ),

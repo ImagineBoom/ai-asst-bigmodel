@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'flutter_flow/request_manager.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/api_requests/api_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,21 +35,6 @@ class FFAppState extends ChangeNotifier {
               .withoutNulls
               .toList() ??
           _examHistory;
-    });
-    _safeInit(() {
-      _examDimensionList = prefs
-              .getStringList('ff_examDimensionList')
-              ?.map((x) {
-                try {
-                  return ExamDimensionStruct.fromSerializableMap(jsonDecode(x));
-                } catch (e) {
-                  print("Can't decode persisted data type. Error: $e.");
-                  return null;
-                }
-              })
-              .withoutNulls
-              .toList() ??
-          _examDimensionList;
     });
   }
 
@@ -125,78 +111,6 @@ class FFAppState extends ChangeNotifier {
     examHistory.insert(index, value);
     prefs.setStringList(
         'ff_examHistory', _examHistory.map((x) => x.serialize()).toList());
-  }
-
-  List<ExamDimensionStruct> _examDimensionList = [
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"功能性\",\"firstClassification\":\"空间布局\",\"secondClassification\":\"功能分区合理性\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"true\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"功能性\",\"firstClassification\":\"功能完整度\",\"secondClassification\":\"功能适应性\",\"coreFieldRecall\":\"Hello World\",\"ifAnalyse\":\"true\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"功能性\",\"firstClassification\":\"流线组织\",\"secondClassification\":\"人流、物流、车流合理性\",\"coreFieldRecall\":\"Hello World\",\"ifAnalyse\":\"true\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"安全性\",\"firstClassification\":\"结构安全\",\"secondClassification\":\"结构稳定性\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"true\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"安全性\",\"firstClassification\":\"消防安全\",\"secondClassification\":\"消防设施完善度\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"true\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"安全性\",\"firstClassification\":\"人身安全\",\"secondClassification\":\"防滑措施\",\"coreFieldRecall\":\"Hello World\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"美观性\",\"firstClassification\":\"造型设计\",\"secondClassification\":\"立面美观度\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"美观性\",\"firstClassification\":\"色彩搭配\",\"secondClassification\":\"色彩协调性\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"美观性\",\"firstClassification\":\"景观融合\",\"secondClassification\":\"建筑与周边环境协调性\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"经济性\",\"firstClassification\":\"投资预算\",\"secondClassification\":\"投资估算准确性\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"经济性\",\"firstClassification\":\"成本控制\",\"secondClassification\":\"材料成本\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"环保性\",\"firstClassification\":\"节能措施\",\"secondClassification\":\"保温隔热性能\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"环保性\",\"firstClassification\":\"环保材料\",\"secondClassification\":\"绿色建材使用率\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"社会性\",\"firstClassification\":\"地域文化\",\"secondClassification\":\"建筑地域特色\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}')),
-    ExamDimensionStruct.fromSerializableMap(jsonDecode(
-        '{\"analyse_dimension\":\"社会性\",\"firstClassification\":\"人文关怀\",\"secondClassification\":\"无障碍设施\",\"coreFieldRecall\":\"\",\"ifAnalyse\":\"false\"}'))
-  ];
-  List<ExamDimensionStruct> get examDimensionList => _examDimensionList;
-  set examDimensionList(List<ExamDimensionStruct> value) {
-    _examDimensionList = value;
-    prefs.setStringList(
-        'ff_examDimensionList', value.map((x) => x.serialize()).toList());
-  }
-
-  void addToExamDimensionList(ExamDimensionStruct value) {
-    examDimensionList.add(value);
-    prefs.setStringList('ff_examDimensionList',
-        _examDimensionList.map((x) => x.serialize()).toList());
-  }
-
-  void removeFromExamDimensionList(ExamDimensionStruct value) {
-    examDimensionList.remove(value);
-    prefs.setStringList('ff_examDimensionList',
-        _examDimensionList.map((x) => x.serialize()).toList());
-  }
-
-  void removeAtIndexFromExamDimensionList(int index) {
-    examDimensionList.removeAt(index);
-    prefs.setStringList('ff_examDimensionList',
-        _examDimensionList.map((x) => x.serialize()).toList());
-  }
-
-  void updateExamDimensionListAtIndex(
-    int index,
-    ExamDimensionStruct Function(ExamDimensionStruct) updateFn,
-  ) {
-    examDimensionList[index] = updateFn(_examDimensionList[index]);
-    prefs.setStringList('ff_examDimensionList',
-        _examDimensionList.map((x) => x.serialize()).toList());
-  }
-
-  void insertAtIndexInExamDimensionList(int index, ExamDimensionStruct value) {
-    examDimensionList.insert(index, value);
-    prefs.setStringList('ff_examDimensionList',
-        _examDimensionList.map((x) => x.serialize()).toList());
   }
 
   List<ExamInfoStruct> _examInfoList = [
@@ -397,6 +311,33 @@ class FFAppState extends ChangeNotifier {
   set selectCourse(String value) {
     _selectCourse = value;
   }
+
+  double _teacherScoreTmp = 0.0;
+  double get teacherScoreTmp => _teacherScoreTmp;
+  set teacherScoreTmp(double value) {
+    _teacherScoreTmp = value;
+  }
+
+  String _loginEmail = '';
+  String get loginEmail => _loginEmail;
+  set loginEmail(String value) {
+    _loginEmail = value;
+  }
+
+  final _generateDimensionManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> generateDimension({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _generateDimensionManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearGenerateDimensionCache() => _generateDimensionManager.clear();
+  void clearGenerateDimensionCacheKey(String? uniqueKey) =>
+      _generateDimensionManager.clearRequest(uniqueKey);
 }
 
 void _safeInit(Function() initializeField) {

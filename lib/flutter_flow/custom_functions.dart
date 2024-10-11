@@ -57,68 +57,6 @@ String aiTag2Color(String aiTagName) {
   }
 }
 
-String getPromptFromDimension(List<ExamDimensionStruct> examDimensions) {
-  // extract List<ExamDimensionStruct> to String, each dimension to a triple  group
-  String dimensions = examDimensions
-      .map((dimension) =>
-          '(${dimension.analyseDimension}, ${dimension.firstClassification}, ${dimension.secondClassification})')
-      .join(', ');
-  String asst_exam_course_name = "现代建筑学";
-  String asst_exam_chapter_name = "现代建筑学";
-  String core_field_recall = "创新";
-  String exam_context = """
-## 角色：你是一个专业的${asst_exam_course_name}课程老师 ，现在需要你批改一套${asst_exam_course_name}的${asst_exam_chapter_name}试卷，需要按照以下【任务要求】执行。
-
-## 【评分规则】：
-- 如果【题目类型】是主观题，学生答案需要围绕（维度,一级指标,二级指标）内容以及【参考答案】展开，必须包含的核心字段有：${core_field_recall}，越贴近得分越高。
-- 如果【题目类型】是客观题，学生答案只需要与参考答案进行匹配，相似度越高，得分越高，参考答案中的关键名字不能写错，写错需要扣分。
-
-##（维度,一级指标,二级指标）：
-${dimensions}
-
-## 【任务要求】：
-1. 对于学生回答的每道题目需要给出评分、评分原因、AI答案相似度、疑似AI的原因、AI答案、学生观点AI凝练。
-1.1. 评分：根据【评分规则】评分，最高得分不能超过题目的最大分数，最低分不小于0分。评分的依据在【评分原因】项中给出。
-1.2. 【评分原因】：每道题目的评分原因的内容不能超过300字。每个句号后面需要加上溯源标记，溯源标记有三种[S:1]、[A:1]、[I:网址]。[S:1]，代表是学生答案的第一句话的点评，如果是连贯的溯源则需要[S:1-15],代表学生答案的第一句到第15句；[A:1]，代表引用了参考答案的第一句话；[I:网址]，代表引用了网址链接中的互联网信息，需要给出可访问的网页链接。根据情况使用这三种标记。
-1.3. AI答案相似度：表示学生答案疑似AI的概率。如果【题目类型】是客观题，则该项的值为0，表示客观题答案固定，不需要检测是否是使用AI生成的答案。如果【题目类型】是主观题，则该项的值为百分数，表示学生答案疑似AI的概率。原因在【疑似AI的原因】项中给出。
-1.4. 【疑似AI的原因】：给出学生答案疑似AI的原因，不超过300字。
-1.5. AI答案：AI答案不超过500字，AI答案需要根据题目和评分规则给出。
-1.6. 学生观点AI凝练：凝练学生观点不超过100字，凝练学生观点需要基于学生答案和评分规则给出。
-2. 所有题目批改完成后需要对所有题目的得分求和，给出试卷总分。
-3. 输出内容由【字段定义】给出。
-
-##【字段定义】：
-试卷和题目请严格按照如下格式仅输出JSON，不要输出python代码，不要返回多余信息，JSON中有多个字段用顿号【、】区隔：
-### JSON字段：
-{{
-  "试卷名称": "试卷名称",
-  "题目总数": "题目总数",
-  "总得分": "总得分",
-  "题目列表":[
-    {{
-        "题目编号": "题目编号",
-        "题目内容": "原本的题目",
-        "参考答案": "参考答案",
-        "题目总分": "题目总分",
-        "AI评分": " 1.1. 得分" ,
-        "评分原因": " 1.2. 评分原因”,
-        "检测是否是AI答案": " 1.3. AI答案相似度，必须是百分数,需要带%",
-        "疑似AI的原因": " 1.4.【疑似AI的原因】",
-        "AI答案": " 1.5. AI答案",
-        "学生观点的AI凝练": " 1.6. 学生观点使用AI凝练"
-    }}
-    ]
-  ...
-}}
-
-## 注意事项：
-1. 基于给出的内容，专业和严谨的回答问题。不允许在答案中添加任何编造成分。
-
-  """;
-
-  return exam_context;
-}
-
 List<TeacherCommentStruct> jsonToListTeacherComment(List<dynamic> listJson) {
   List<TeacherCommentStruct> comments = listJson.map((json) {
     return TeacherCommentStruct(
@@ -220,4 +158,64 @@ String listTeacherCommentToString(
     """;
   }
   return c_context;
+}
+
+String randomNameFunction() {
+  final List<String> surnames = [
+    "赵", "钱", "孙", "李", "周", "吴", "郑", "王",
+    "冯", "陈", "褚", "卫", "蒋", "沈", "韩", "杨",
+    "朱", "秦", "尤", "许", "何", "吕", "施", "张",
+    // 添加更多的姓氏以增加多样性
+  ];
+
+  final List<String> names = [
+    "伟", "芳", "娜", "秀英", "敏", "静", "丽", "强",
+    "磊", "军", "洋", "勇", "艳", "杰", "娟", "涛",
+    "明", "超", "秀兰", "霞", "平", "刚", "桂英",
+    // 添加更多的名字以增加多样性
+  ];
+
+  math.Random random = math.Random();
+
+  // 随机选择一个姓氏
+  String surname = surnames[random.nextInt(surnames.length)];
+
+  // 随机选择一个名字
+  String name = names[random.nextInt(names.length)];
+
+  // 组合姓氏和名字
+  return surname + name;
+}
+
+double string2num(String num) {
+  // convert string type num  to double type result
+  try {
+    return double.parse(num);
+  } catch (e) {
+    // 如果解析失败，打印错误并返回0
+    print("Error: ${e.toString()}");
+    return 0;
+  }
+}
+
+String grade2Level(double grade) {
+  if (grade >= 90) {
+    return 'A';
+  } else if (grade >= 80) {
+    return 'B';
+  } else if (grade >= 70) {
+    return 'C';
+  } else if (grade >= 60) {
+    return 'D';
+  } else {
+    return 'E';
+  }
+}
+
+int string2int(String input) {
+  // 使用Dart内置的哈希码函数
+  int hash = input.hashCode;
+  // 如果需要正整数，可以使用以下转换
+  hash = hash & 0x7FFFFFFF;
+  return hash;
 }

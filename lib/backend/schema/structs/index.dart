@@ -1,6 +1,7 @@
 export '/backend/schema/util/schema_util.dart';
 
 export 'exam_answer_detail_struct.dart';
+export 'score_key_point_struct.dart';
 export 'answer_struct.dart';
 export 'comment_list_struct.dart';
 export 'course_info_struct.dart';
@@ -10,6 +11,11 @@ export 'exam_dimension_struct.dart';
 export 'exam_info_struct.dart';
 export 'exams_history_item_struct.dart';
 export 'info_struct.dart';
+export 'question_struct.dart';
 export 'question_info_struct.dart';
+export 'score_key_points_rank_list_struct.dart';
+export 'stu_answer_list_struct.dart';
+export 'stu_answer_list2_struct.dart';
 export 'subject_struct.dart';
 export 'teacher_comment_struct.dart';
+export 'test_struct.dart';

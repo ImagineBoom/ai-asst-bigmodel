@@ -885,7 +885,7 @@ class _NewExamBankWidgetState extends State<NewExamBankWidget> {
 
                                           safeSetState(() {});
                                         },
-                                        text: '保存学科',
+                                        text: '保存',
                                         options: FFButtonOptions(
                                           width: 250.0,
                                           height: 50.0,

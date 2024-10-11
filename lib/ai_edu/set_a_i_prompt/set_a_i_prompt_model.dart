@@ -12,7 +12,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
-import '/flutter_flow/custom_functions.dart' as functions;
+import '/flutter_flow/request_manager.dart';
+
 import 'set_a_i_prompt_widget.dart' show SetAIPromptWidget;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,6 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - API (list)] action in SetAIPrompt widget.
-  ApiCallResponse? apiResultDimensionList;
   // Model for Menu component.
   late MenuModel menuModel;
   // Model for Header component.
@@ -58,12 +57,16 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
   FormFieldController<String>? dropDownValueController;
   // State field(s) for PaginatedDataTable widget.
   final paginatedDataTableController =
-      FlutterFlowDataTableController<DimensionInfoStruct>();
+      FlutterFlowDataTableController<ExamDimensionStruct>();
   // State field(s) for Checkbox widget.
-  Map<DimensionInfoStruct, bool> checkboxValueMap = {};
-  List<DimensionInfoStruct> get checkboxCheckedItems =>
+  Map<ExamDimensionStruct, bool> checkboxValueMap = {};
+  List<ExamDimensionStruct> get checkboxCheckedItems =>
       checkboxValueMap.entries.where((e) => e.value).map((e) => e.key).toList();
 
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController1;
+  String? Function(BuildContext, String?)? textController1Validator;
   // Model for AIPromptPreview component.
   late AIPromptPreviewModel aIPromptPreviewModel;
   // State field(s) for DimensionDropDown widget.
@@ -101,6 +104,23 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
   // Stores action output result for [Backend Call - API (insert)] action in Button widget.
   ApiCallResponse? apiResultDimensionInsertOut;
 
+  /// Query cache managers for this widget.
+
+  final _getQuestionManager = FutureRequestManager<ApiCallResponse>();
+  Future<ApiCallResponse> getQuestion({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<ApiCallResponse> Function() requestFn,
+  }) =>
+      _getQuestionManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearGetQuestionCache() => _getQuestionManager.clear();
+  void clearGetQuestionCacheKey(String? uniqueKey) =>
+      _getQuestionManager.clearRequest(uniqueKey);
+
   @override
   void initState(BuildContext context) {
     menuModel = createModel(context, () => MenuModel());
@@ -115,6 +135,9 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
     headerModel.dispose();
     subHeaderModel.dispose();
     paginatedDataTableController.dispose();
+    textFieldFocusNode?.dispose();
+    textController1?.dispose();
+
     aIPromptPreviewModel.dispose();
     dimensionTextFieldFocusNode?.dispose();
     dimensionTextFieldTextController?.dispose();
@@ -127,5 +150,9 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
 
     coreFieldTextFieldFocusNode?.dispose();
     coreFieldTextFieldTextController?.dispose();
+
+    /// Dispose query cache managers for this widget.
+
+    clearGetQuestionCache();
   }
 }

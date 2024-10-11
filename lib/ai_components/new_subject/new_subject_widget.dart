@@ -168,7 +168,7 @@ class _NewSubjectWidgetState extends State<NewSubjectWidget> {
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Text(
-                                                '添加考试学科',
+                                                '添加课程',
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .headlineSmall
@@ -224,7 +224,7 @@ class _NewSubjectWidgetState extends State<NewSubjectWidget> {
                                                   children: [
                                                     Flexible(
                                                       child: Text(
-                                                        '学科名称',
+                                                        '课程名称',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -896,7 +896,7 @@ class _NewSubjectWidgetState extends State<NewSubjectWidget> {
 
                                           safeSetState(() {});
                                         },
-                                        text: '保存学科',
+                                        text: '保存课程',
                                         options: FFButtonOptions(
                                           width: 250.0,
                                           height: 50.0,

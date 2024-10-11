@@ -11,5 +11,9 @@ export '/ai_edu/set_a_i_prompt/set_a_i_prompt_widget.dart'
 export '/ai_edu/exam_scores/exam_scores_widget.dart' show ExamScoresWidget;
 export '/ai_edu/exam_scores_paper_detail/exam_scores_paper_detail_widget.dart'
     show ExamScoresPaperDetailWidget;
+export '/exam_detail/exam_detail_widget.dart' show ExamDetailWidget;
 export '/ai_edu/student_portrait/student_portrait_widget.dart'
     show StudentPortraitWidget;
+export '/ai_edu/set_stu_answer/set_stu_answer_widget.dart'
+    show SetStuAnswerWidget;
+export '/ai_edu/set_test/set_test_widget.dart' show SetTestWidget;

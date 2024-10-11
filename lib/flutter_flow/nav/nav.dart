@@ -110,16 +110,34 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'ExamScores',
           path: '/exam_scores',
-          builder: (context, params) => ExamScoresWidget(),
+          builder: (context, params) => ExamScoresWidget(
+            asstExamBankID: params.getParam(
+              'asstExamBankID',
+              ParamType.int,
+            ),
+          ),
         ),
         FFRoute(
           name: 'ExamScoresPaperDetail',
           path: '/exam_scores_paper_detail',
           builder: (context, params) => ExamScoresPaperDetailWidget(
-            aitags: params.getParam<String>(
-              'aitags',
-              ParamType.String,
-              isList: true,
+            asstExamBankID: params.getParam(
+              'asstExamBankID',
+              ParamType.int,
+            ),
+            stuID: params.getParam(
+              'stuID',
+              ParamType.int,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'ExamDetail',
+          path: '/ExamDetail',
+          builder: (context, params) => ExamDetailWidget(
+            asstExamBankID: params.getParam(
+              'asstExamBankID',
+              ParamType.int,
             ),
           ),
         ),
@@ -127,6 +145,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'StudentPortrait',
           path: '/StudentPortrait',
           builder: (context, params) => StudentPortraitWidget(),
+        ),
+        FFRoute(
+          name: 'setStuAnswer',
+          path: '/setStuAnswer',
+          builder: (context, params) => SetStuAnswerWidget(
+            asstExamBankID: params.getParam(
+              'asstExamBankID',
+              ParamType.int,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'SetTest',
+          path: '/setTest',
+          builder: (context, params) => SetTestWidget(
+            asstExamBankID: params.getParam(
+              'asstExamBankID',
+              ParamType.int,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

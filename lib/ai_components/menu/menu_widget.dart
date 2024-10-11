@@ -131,17 +131,18 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: Text(
                       '清华大学',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Plus Jakarta Sans',
-                            letterSpacing: 0.0,
-                          ),
+                      style:
+                          FlutterFlowTheme.of(context).headlineSmall.override(
+                                fontFamily: 'Open Sans',
+                                letterSpacing: 0.0,
+                              ),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
                     child: Icon(
                       Icons.menu_open_rounded,
-                      color: FlutterFlowTheme.of(context).secondaryText,
+                      color: FlutterFlowTheme.of(context).alternate,
                       size: 24.0,
                     ).animateOnActionTrigger(
                       animationsMap['iconOnActionTriggerAnimation']!,
@@ -164,7 +165,7 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                         updateOnChange: true,
                         child: MenuItem2Widget(
                           isActivePage: false,
-                          text: '功能台',
+                          text: '功能台(上线中)',
                           icon: Icon(
                             Icons.dashboard_outlined,
                           ),
@@ -307,9 +308,9 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                           updateCallback: () => safeSetState(() {}),
                           child: MenuItem2Widget(
                             isActivePage: false,
-                            text: '学生肖像',
+                            text: '学生肖像(上线中)',
                             icon: Icon(
-                              Icons.message_outlined,
+                              Icons.person_2,
                             ),
                             hasNumberTag: false,
                             hasSubMenu: false,
@@ -392,7 +393,7 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'AI小助智能体',
+                                          'AI小助\n智能体(上线中)',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
@@ -521,79 +522,83 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                                       .textFieldBachGround,
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.all(12.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'AI Agent!',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleMedium
-                                                        .override(
-                                                          fontFamily:
-                                                              'Plus Jakarta Sans',
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w900,
-                                                        ),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Flexible(
-                                                child: Text(
-                                                  'Upgrade and get the AI agent, Buy your agent that works for you 24/9',
-                                                  textAlign: TextAlign.center,
+                                child: Visibility(
+                                  visible: false,
+                                  child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.all(12.0),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'AI Agent!',
                                                   style: FlutterFlowTheme.of(
                                                           context)
-                                                      .bodyMedium
+                                                      .titleMedium
                                                       .override(
                                                         fontFamily:
                                                             'Plus Jakarta Sans',
-                                                        fontSize: 12.0,
+                                                        fontSize: 14.0,
                                                         letterSpacing: 0.0,
-                                                        lineHeight: 1.3,
+                                                        fontWeight:
+                                                            FontWeight.w900,
                                                       ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ].divide(SizedBox(height: 8.0)),
-                                      ),
-                                    ),
-                                    Align(
-                                      alignment: AlignmentDirectional(1.0, 0.0),
-                                      child: FlutterFlowIconButton(
-                                        borderColor: Colors.transparent,
-                                        borderRadius: 8.0,
-                                        buttonSize: 30.0,
-                                        hoverColor: Colors.transparent,
-                                        icon: Icon(
-                                          Icons.close_outlined,
-                                          color: Color(0xFF0B27DD),
-                                          size: 18.0,
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Flexible(
+                                                  child: Text(
+                                                    'Upgrade and get the AI agent, Buy your agent that works for you 24/9',
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          fontSize: 12.0,
+                                                          letterSpacing: 0.0,
+                                                          lineHeight: 1.3,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ].divide(SizedBox(height: 8.0)),
                                         ),
-                                        onPressed: () async {
-                                          _model.showUpgrade = false;
-                                          safeSetState(() {});
-                                        },
                                       ),
-                                    ),
-                                  ],
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(1.0, 0.0),
+                                        child: FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 8.0,
+                                          buttonSize: 30.0,
+                                          hoverColor: Colors.transparent,
+                                          icon: Icon(
+                                            Icons.close_outlined,
+                                            color: Color(0xFF0B27DD),
+                                            size: 18.0,
+                                          ),
+                                          onPressed: () async {
+                                            _model.showUpgrade = false;
+                                            safeSetState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                           ],
@@ -638,7 +643,7 @@ class _MenuWidgetState extends State<MenuWidget> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(),
                                   alignment: AlignmentDirectional(-1.0, 0.0),
                                   child: Text(
-                                    'Logout',
+                                    '退出登录',
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(

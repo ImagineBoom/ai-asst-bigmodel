@@ -2,7 +2,6 @@ import '/ai_components/header/header_widget.dart';
 import '/ai_components/menu/menu_widget.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
-import '/components/a_i_score/a_i_score_widget.dart';
 import '/components/divider/divider_widget.dart';
 import '/components/sub_header/sub_header_widget.dart';
 import '/flutter_flow/flutter_flow_data_table.dart';
@@ -11,6 +10,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import 'dart:async';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'exam_scores_widget.dart' show ExamScoresWidget;
 import 'package:aligned_tooltip/aligned_tooltip.dart';
@@ -37,8 +37,8 @@ class ExamScoresModel extends FlutterFlowModel<ExamScoresWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  // Stores action output result for [Backend Call - API (postJudgePaper)] action in ExamScores widget.
-  ApiCallResponse? apiResult9iz;
+  // Stores action output result for [Backend Call - API (startAIgrading)] action in ExamScores widget.
+  ApiCallResponse? apiResultui3AIGrading;
   // Model for Menu component.
   late MenuModel menuModel;
   // Model for Header component.
@@ -52,15 +52,18 @@ class ExamScoresModel extends FlutterFlowModel<ExamScoresWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  Completer<ApiCallResponse>? apiRequestCompleter;
+  // Stores action output result for [Backend Call - API (autoMakeSureAllaiGrade)] action in Button widget.
+  ApiCallResponse? apiResulto6m;
   // Model for Divider component.
   late DividerModel dividerModel;
   // State field(s) for PaginatedDataTable widget.
   final paginatedDataTableController =
-      FlutterFlowDataTableController<AnswerStruct>();
-  // Stores action output result for [Backend Call - API (getExamPaperDetail)] action in Button widget.
-  ApiCallResponse? getExamPaperDetailOutput;
-  // Model for AIScore component.
-  late AIScoreModel aIScoreModel;
+      FlutterFlowDataTableController<StuAnswerListStruct>();
+  // State field(s) for Checkbox widget.
+  Map<StuAnswerListStruct, bool> checkboxValueMap = {};
+  List<StuAnswerListStruct> get checkboxCheckedItems =>
+      checkboxValueMap.entries.where((e) => e.value).map((e) => e.key).toList();
 
   @override
   void initState(BuildContext context) {
@@ -68,7 +71,6 @@ class ExamScoresModel extends FlutterFlowModel<ExamScoresWidget> {
     headerModel = createModel(context, () => HeaderModel());
     subHeaderModel = createModel(context, () => SubHeaderModel());
     dividerModel = createModel(context, () => DividerModel());
-    aIScoreModel = createModel(context, () => AIScoreModel());
   }
 
   @override
@@ -81,6 +83,21 @@ class ExamScoresModel extends FlutterFlowModel<ExamScoresWidget> {
 
     dividerModel.dispose();
     paginatedDataTableController.dispose();
-    aIScoreModel.dispose();
+  }
+
+  /// Additional helper methods.
+  Future waitForApiRequestCompleted({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = apiRequestCompleter?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
   }
 }

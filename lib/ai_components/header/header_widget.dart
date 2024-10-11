@@ -144,7 +144,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.normal,
                                           ),
-                                      hintText: 'Search here ...',
+                                      hintText: '点击搜索 ...',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(

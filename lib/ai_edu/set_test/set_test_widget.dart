@@ -168,6 +168,8 @@ class _SetTestWidgetState extends State<SetTestWidget> {
                                                       child: SubHeaderWidget(
                                                         title: '智能批阅板块-3. 添加试题',
                                                         showBackBtn: true,
+                                                        secTitle:
+                                                            '<<${FFAppState().selectTest}>>',
                                                       ),
                                                     ),
                                                   ),

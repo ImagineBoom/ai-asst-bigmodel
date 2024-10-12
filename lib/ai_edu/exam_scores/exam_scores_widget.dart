@@ -170,6 +170,8 @@ class _ExamScoresWidgetState extends State<ExamScoresWidget> {
                                           title: '智能批阅板块-6. 批阅结果列表',
                                           showBackBtn:
                                               _model.menuModel.showUpgrade,
+                                          secTitle:
+                                              '<<${FFAppState().selectTest}>>',
                                         ),
                                       ),
                                     ),

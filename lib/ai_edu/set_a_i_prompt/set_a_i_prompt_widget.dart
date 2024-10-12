@@ -12,9 +12,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
+import 'dart:async';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +55,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
               color: FlutterFlowTheme.of(context).primaryText,
             ),
           ),
-          duration: Duration(milliseconds: 4000),
+          duration: Duration(milliseconds: 2500),
           backgroundColor: FlutterFlowTheme.of(context).secondary,
         ),
       );
@@ -198,6 +200,8 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                         title:
                                                             '智能批阅板块-4. AI 分析维度设置',
                                                         showBackBtn: true,
+                                                        secTitle:
+                                                            '<<${FFAppState().selectTest}>>',
                                                       ),
                                                     ),
                                                   ),
@@ -451,7 +455,12 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                             children: [
                                                               FFButtonWidget(
                                                                 onPressed:
-                                                                    () async {},
+                                                                    () async {
+                                                                  _model.ifSetDimension =
+                                                                      true;
+                                                                  safeSetState(
+                                                                      () {});
+                                                                },
                                                                 text: '新增维度',
                                                                 icon: Icon(
                                                                   Icons.add,
@@ -476,7 +485,7 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               0.0),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .secondaryText,
+                                                                      .primary,
                                                                   textStyle: FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelLarge
@@ -613,113 +622,136 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                   0.0,
                                                                   0.0,
                                                                   10.0),
-                                                      child: Builder(
-                                                        builder: (context) {
-                                                          final coreFields = VictoryGroup
-                                                                  .giveDimensionCall
-                                                                  .dimensionList(
-                                                                    setAIPromptGiveDimensionResponse
-                                                                        .jsonBody,
-                                                                  )
-                                                                  ?.map((e) => ExamDimensionStruct
-                                                                          .maybeFromMap(
-                                                                              e)
-                                                                      ?.coreFieldRecall)
-                                                                  .withoutNulls
-                                                                  .toList()
-                                                                  ?.unique(
-                                                                      (e) => e)
-                                                                  ?.toList() ??
-                                                              [];
+                                                      child: FutureBuilder<
+                                                          ApiCallResponse>(
+                                                        future: VictoryGroup
+                                                            .getDimensionCall
+                                                            .call(
+                                                          id: widget!
+                                                              .asstExamBankID,
+                                                        ),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          // Customize what your widget looks like when it's loading.
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Center(
+                                                              child: SizedBox(
+                                                                width: 40.0,
+                                                                height: 40.0,
+                                                                child:
+                                                                    SpinKitFadingCube(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  size: 40.0,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          final wrapGetDimensionResponse =
+                                                              snapshot.data!;
 
-                                                          return Wrap(
-                                                            spacing: 0.0,
-                                                            runSpacing: 0.0,
-                                                            alignment:
-                                                                WrapAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                WrapCrossAlignment
-                                                                    .start,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            runAlignment:
-                                                                WrapAlignment
-                                                                    .start,
-                                                            verticalDirection:
-                                                                VerticalDirection
-                                                                    .down,
-                                                            clipBehavior:
-                                                                Clip.none,
-                                                            children: List.generate(
-                                                                coreFields
-                                                                    .length,
-                                                                (coreFieldsIndex) {
-                                                              final coreFieldsItem =
-                                                                  coreFields[
-                                                                      coreFieldsIndex];
-                                                              return Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
+                                                          return Builder(
+                                                            builder: (context) {
+                                                              final coreFields = VictoryGroup
+                                                                      .getDimensionCall
+                                                                      .dimensionList(
+                                                                        wrapGetDimensionResponse
+                                                                            .jsonBody,
+                                                                      )
+                                                                      ?.map((e) => e
+                                                                          .coreFieldRecall)
+                                                                      .toList()
+                                                                      ?.where((e) =>
+                                                                          e !=
+                                                                              null &&
+                                                                          e !=
+                                                                              '')
+                                                                      .toList()
+                                                                      ?.toList() ??
+                                                                  [];
+
+                                                              return Wrap(
+                                                                spacing: 0.0,
+                                                                runSpacing: 0.0,
+                                                                alignment:
+                                                                    WrapAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    WrapCrossAlignment
+                                                                        .start,
+                                                                direction: Axis
+                                                                    .horizontal,
+                                                                runAlignment:
+                                                                    WrapAlignment
+                                                                        .start,
+                                                                verticalDirection:
+                                                                    VerticalDirection
+                                                                        .down,
+                                                                clipBehavior:
+                                                                    Clip.none,
+                                                                children: List.generate(
+                                                                    coreFields
+                                                                        .length,
+                                                                    (coreFieldsIndex) {
+                                                                  final coreFieldsItem =
+                                                                      coreFields[
+                                                                          coreFieldsIndex];
+                                                                  return Padding(
+                                                                    padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
                                                                             8.0,
                                                                             0.0),
-                                                                child:
-                                                                    FFButtonWidget(
-                                                                  onPressed:
-                                                                      () {
-                                                                    print(
-                                                                        'Button pressed ...');
-                                                                  },
-                                                                  text:
-                                                                      coreFieldsItem,
-                                                                  options:
-                                                                      FFButtonOptions(
-                                                                    height:
-                                                                        40.0,
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                    child:
+                                                                        FFButtonWidget(
+                                                                      onPressed:
+                                                                          () {
+                                                                        print(
+                                                                            'Button pressed ...');
+                                                                      },
+                                                                      text:
+                                                                          coreFieldsItem,
+                                                                      options:
+                                                                          FFButtonOptions(
+                                                                        height:
+                                                                            40.0,
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             16.0,
                                                                             0.0,
                                                                             16.0,
                                                                             0.0),
-                                                                    iconPadding:
-                                                                        EdgeInsetsDirectional.fromSTEB(
+                                                                        iconPadding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             0.0,
                                                                             0.0,
                                                                             0.0),
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryBackground,
-                                                                    textStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Plus Jakarta Sans',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryBackground,
+                                                                        textStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .override(
+                                                                              fontFamily: 'Plus Jakarta Sans',
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              letterSpacing: 0.0,
+                                                                            ),
+                                                                        elevation:
+                                                                            0.0,
+                                                                        borderSide:
+                                                                            BorderSide(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          letterSpacing:
-                                                                              0.0,
+                                                                              FlutterFlowTheme.of(context).secondaryText,
                                                                         ),
-                                                                    elevation:
-                                                                        0.0,
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .secondaryText,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(2.0),
+                                                                      ),
                                                                     ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            2.0),
-                                                                  ),
-                                                                ),
+                                                                  );
+                                                                }),
                                                               );
-                                                            }),
+                                                            },
                                                           );
                                                         },
                                                       ),
@@ -732,263 +764,260 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                       children: [
                                                         Expanded(
                                                           flex: 1,
-                                                          child: Container(
-                                                            height:
-                                                                double.infinity,
-                                                            child: Builder(
-                                                              builder:
-                                                                  (context) {
-                                                                final examDimensionsList = VictoryGroup
-                                                                        .giveDimensionCall
-                                                                        .dimensionList(
-                                                                          setAIPromptGiveDimensionResponse
-                                                                              .jsonBody,
-                                                                        )
-                                                                        ?.map((e) =>
-                                                                            ExamDimensionStruct.maybeFromMap(e))
-                                                                        .withoutNulls
-                                                                        .toList()
-                                                                        ?.toList() ??
-                                                                    [];
-
-                                                                return FlutterFlowDataTable<
-                                                                    ExamDimensionStruct>(
-                                                                  controller: _model
-                                                                      .paginatedDataTableController,
-                                                                  data:
-                                                                      examDimensionsList,
-                                                                  columnsBuilder:
-                                                                      (onSortChanged) =>
-                                                                          [
-                                                                    DataColumn2(
-                                                                      label: DefaultTextStyle
-                                                                          .merge(
-                                                                        softWrap:
-                                                                            true,
-                                                                        child:
-                                                                            Text(
-                                                                          '分析维度',
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .labelLarge
-                                                                              .override(
-                                                                                fontFamily: 'Plus Jakarta Sans',
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                letterSpacing: 0.0,
-                                                                              ),
-                                                                        ),
-                                                                      ),
+                                                          child: FutureBuilder<
+                                                              ApiCallResponse>(
+                                                            future: (_model.apiRequestCompleter ??= Completer<
+                                                                    ApiCallResponse>()
+                                                                  ..complete(
+                                                                      VictoryGroup
+                                                                          .getDimensionCall
+                                                                          .call(
+                                                                    id: widget!
+                                                                        .asstExamBankID,
+                                                                  )))
+                                                                .future,
+                                                            builder: (context,
+                                                                snapshot) {
+                                                              // Customize what your widget looks like when it's loading.
+                                                              if (!snapshot
+                                                                  .hasData) {
+                                                                return Center(
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: 40.0,
+                                                                    height:
+                                                                        40.0,
+                                                                    child:
+                                                                        SpinKitFadingCube(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      size:
+                                                                          40.0,
                                                                     ),
-                                                                    DataColumn2(
-                                                                      label: DefaultTextStyle
-                                                                          .merge(
-                                                                        softWrap:
-                                                                            true,
-                                                                        child:
-                                                                            Text(
-                                                                          '一级指标',
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .labelLarge
-                                                                              .override(
-                                                                                fontFamily: 'Plus Jakarta Sans',
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                letterSpacing: 0.0,
-                                                                              ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    DataColumn2(
-                                                                      label: DefaultTextStyle
-                                                                          .merge(
-                                                                        softWrap:
-                                                                            true,
-                                                                        child:
-                                                                            Text(
-                                                                          '二级指标',
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .labelLarge
-                                                                              .override(
-                                                                                fontFamily: 'Plus Jakarta Sans',
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                letterSpacing: 0.0,
-                                                                              ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    DataColumn2(
-                                                                      label: DefaultTextStyle
-                                                                          .merge(
-                                                                        softWrap:
-                                                                            true,
-                                                                        child:
-                                                                            Text(
-                                                                          '是否分析',
-                                                                          style: FlutterFlowTheme.of(context)
-                                                                              .labelLarge
-                                                                              .override(
-                                                                                fontFamily: 'Plus Jakarta Sans',
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                letterSpacing: 0.0,
-                                                                              ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                  dataRowBuilder: (examDimensionsListItem,
-                                                                          examDimensionsListIndex,
-                                                                          selected,
-                                                                          onSelectChanged) =>
-                                                                      DataRow(
-                                                                    selected:
-                                                                        selected,
-                                                                    onSelectChanged:
-                                                                        onSelectChanged,
-                                                                    color:
-                                                                        MaterialStateProperty
-                                                                            .all(
-                                                                      examDimensionsListIndex %
-                                                                                  2 ==
-                                                                              0
-                                                                          ? FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground
-                                                                          : FlutterFlowTheme.of(context)
-                                                                              .primaryBackground,
-                                                                    ),
-                                                                    cells: [
-                                                                      Text(
-                                                                        examDimensionsListItem
-                                                                            .dimensionName,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Plus Jakarta Sans',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                      Text(
-                                                                        examDimensionsListItem
-                                                                            .firstLevelIndex,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Plus Jakarta Sans',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                      Text(
-                                                                        examDimensionsListItem
-                                                                            .secondLevelIndex,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Plus Jakarta Sans',
-                                                                              letterSpacing: 0.0,
-                                                                            ),
-                                                                      ),
-                                                                      Theme(
-                                                                        data:
-                                                                            ThemeData(
-                                                                          checkboxTheme:
-                                                                              CheckboxThemeData(
-                                                                            visualDensity:
-                                                                                VisualDensity.compact,
-                                                                            materialTapTargetSize:
-                                                                                MaterialTapTargetSize.shrinkWrap,
-                                                                            shape:
-                                                                                RoundedRectangleBorder(
-                                                                              borderRadius: BorderRadius.circular(4.0),
-                                                                            ),
-                                                                          ),
-                                                                          unselectedWidgetColor:
-                                                                              FlutterFlowTheme.of(context).alternate,
-                                                                        ),
-                                                                        child:
-                                                                            Checkbox(
-                                                                          value: _model.checkboxValueMap[examDimensionsListItem] ??=
-                                                                              true,
-                                                                          onChanged:
-                                                                              (newValue) async {
-                                                                            safeSetState(() =>
-                                                                                _model.checkboxValueMap[examDimensionsListItem] = newValue!);
-                                                                          },
-                                                                          side:
-                                                                              BorderSide(
-                                                                            width:
-                                                                                2,
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).alternate,
-                                                                          ),
-                                                                          activeColor:
-                                                                              FlutterFlowTheme.of(context).primary,
-                                                                          checkColor:
-                                                                              FlutterFlowTheme.of(context).info,
-                                                                        ),
-                                                                      ),
-                                                                    ]
-                                                                        .map((c) =>
-                                                                            DataCell(c))
-                                                                        .toList(),
                                                                   ),
-                                                                  paginated:
-                                                                      true,
-                                                                  selectable:
-                                                                      true,
-                                                                  hidePaginator:
-                                                                      false,
-                                                                  showFirstLastButtons:
-                                                                      true,
-                                                                  width: double
-                                                                      .infinity,
-                                                                  height: double
-                                                                      .infinity,
-                                                                  headingRowHeight:
-                                                                      56.0,
-                                                                  dataRowHeight:
-                                                                      48.0,
-                                                                  headingRowColor:
-                                                                      Color(
-                                                                          0xB9380883),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .only(
-                                                                    bottomLeft:
-                                                                        Radius.circular(
-                                                                            0.0),
-                                                                    bottomRight:
-                                                                        Radius.circular(
-                                                                            0.0),
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            0.0),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            0.0),
-                                                                  ),
-                                                                  addHorizontalDivider:
-                                                                      false,
-                                                                  addTopAndBottomDivider:
-                                                                      false,
-                                                                  hideDefaultHorizontalDivider:
-                                                                      false,
-                                                                  addVerticalDivider:
-                                                                      false,
-                                                                  checkboxUnselectedFillColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  checkboxSelectedFillColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  checkboxCheckColor:
-                                                                      Color(
-                                                                          0x8A000000),
-                                                                  checkboxUnselectedBorderColor:
-                                                                      Color(
-                                                                          0x8A000000),
-                                                                  checkboxSelectedBorderColor:
-                                                                      Color(
-                                                                          0x8A000000),
                                                                 );
-                                                              },
-                                                            ),
+                                                              }
+                                                              final dataTableDimGetDimensionResponse =
+                                                                  snapshot
+                                                                      .data!;
+
+                                                              return Container(
+                                                                height: double
+                                                                    .infinity,
+                                                                child: Builder(
+                                                                  builder:
+                                                                      (context) {
+                                                                    final examDimensionsList = VictoryGroup
+                                                                            .getDimensionCall
+                                                                            .dimensionList(
+                                                                              dataTableDimGetDimensionResponse.jsonBody,
+                                                                            )
+                                                                            ?.toList() ??
+                                                                        [];
+
+                                                                    return FlutterFlowDataTable<
+                                                                        ExamDimensionStruct>(
+                                                                      controller:
+                                                                          _model
+                                                                              .paginatedDataTableController,
+                                                                      data:
+                                                                          examDimensionsList,
+                                                                      columnsBuilder:
+                                                                          (onSortChanged) =>
+                                                                              [
+                                                                        DataColumn2(
+                                                                          label:
+                                                                              DefaultTextStyle.merge(
+                                                                            softWrap:
+                                                                                true,
+                                                                            child:
+                                                                                Text(
+                                                                              '分析维度',
+                                                                              style: FlutterFlowTheme.of(context).labelLarge.override(
+                                                                                    fontFamily: 'Plus Jakarta Sans',
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    letterSpacing: 0.0,
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        DataColumn2(
+                                                                          label:
+                                                                              DefaultTextStyle.merge(
+                                                                            softWrap:
+                                                                                true,
+                                                                            child:
+                                                                                Text(
+                                                                              '一级指标',
+                                                                              style: FlutterFlowTheme.of(context).labelLarge.override(
+                                                                                    fontFamily: 'Plus Jakarta Sans',
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    letterSpacing: 0.0,
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        DataColumn2(
+                                                                          label:
+                                                                              DefaultTextStyle.merge(
+                                                                            softWrap:
+                                                                                true,
+                                                                            child:
+                                                                                Text(
+                                                                              '二级指标',
+                                                                              style: FlutterFlowTheme.of(context).labelLarge.override(
+                                                                                    fontFamily: 'Plus Jakarta Sans',
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    letterSpacing: 0.0,
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        DataColumn2(
+                                                                          label:
+                                                                              DefaultTextStyle.merge(
+                                                                            softWrap:
+                                                                                true,
+                                                                            child:
+                                                                                Text(
+                                                                              '是否分析',
+                                                                              style: FlutterFlowTheme.of(context).labelLarge.override(
+                                                                                    fontFamily: 'Plus Jakarta Sans',
+                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                    letterSpacing: 0.0,
+                                                                                  ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                      dataRowBuilder: (examDimensionsListItem,
+                                                                              examDimensionsListIndex,
+                                                                              selected,
+                                                                              onSelectChanged) =>
+                                                                          DataRow(
+                                                                        selected:
+                                                                            selected,
+                                                                        onSelectChanged:
+                                                                            onSelectChanged,
+                                                                        color: MaterialStateProperty
+                                                                            .all(
+                                                                          examDimensionsListIndex % 2 == 0
+                                                                              ? FlutterFlowTheme.of(context).secondaryBackground
+                                                                              : FlutterFlowTheme.of(context).primaryBackground,
+                                                                        ),
+                                                                        cells: [
+                                                                          Text(
+                                                                            examDimensionsListItem.dimensionName,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Plus Jakarta Sans',
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                          ),
+                                                                          Text(
+                                                                            examDimensionsListItem.firstLevelIndex,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Plus Jakarta Sans',
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                          ),
+                                                                          Text(
+                                                                            examDimensionsListItem.secondLevelIndex,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Plus Jakarta Sans',
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                          ),
+                                                                          Theme(
+                                                                            data:
+                                                                                ThemeData(
+                                                                              checkboxTheme: CheckboxThemeData(
+                                                                                visualDensity: VisualDensity.compact,
+                                                                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(4.0),
+                                                                                ),
+                                                                              ),
+                                                                              unselectedWidgetColor: FlutterFlowTheme.of(context).alternate,
+                                                                            ),
+                                                                            child:
+                                                                                Checkbox(
+                                                                              value: _model.checkboxValueMap[examDimensionsListItem] ??= true,
+                                                                              onChanged: (newValue) async {
+                                                                                safeSetState(() => _model.checkboxValueMap[examDimensionsListItem] = newValue!);
+                                                                              },
+                                                                              side: BorderSide(
+                                                                                width: 2,
+                                                                                color: FlutterFlowTheme.of(context).alternate,
+                                                                              ),
+                                                                              activeColor: FlutterFlowTheme.of(context).primary,
+                                                                              checkColor: FlutterFlowTheme.of(context).info,
+                                                                            ),
+                                                                          ),
+                                                                        ]
+                                                                            .map((c) =>
+                                                                                DataCell(c))
+                                                                            .toList(),
+                                                                      ),
+                                                                      paginated:
+                                                                          true,
+                                                                      selectable:
+                                                                          true,
+                                                                      hidePaginator:
+                                                                          false,
+                                                                      showFirstLastButtons:
+                                                                          true,
+                                                                      width: double
+                                                                          .infinity,
+                                                                      height: double
+                                                                          .infinity,
+                                                                      headingRowHeight:
+                                                                          56.0,
+                                                                      dataRowHeight:
+                                                                          48.0,
+                                                                      headingRowColor:
+                                                                          Color(
+                                                                              0xB9380883),
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        bottomLeft:
+                                                                            Radius.circular(0.0),
+                                                                        bottomRight:
+                                                                            Radius.circular(0.0),
+                                                                        topLeft:
+                                                                            Radius.circular(0.0),
+                                                                        topRight:
+                                                                            Radius.circular(0.0),
+                                                                      ),
+                                                                      addHorizontalDivider:
+                                                                          false,
+                                                                      addTopAndBottomDivider:
+                                                                          false,
+                                                                      hideDefaultHorizontalDivider:
+                                                                          false,
+                                                                      addVerticalDivider:
+                                                                          false,
+                                                                      checkboxUnselectedFillColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      checkboxSelectedFillColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      checkboxCheckColor:
+                                                                          Color(
+                                                                              0x8A000000),
+                                                                      checkboxUnselectedBorderColor:
+                                                                          Color(
+                                                                              0x8A000000),
+                                                                      checkboxSelectedBorderColor:
+                                                                          Color(
+                                                                              0x8A000000),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
                                                           ),
                                                         ),
                                                         Expanded(
@@ -1031,16 +1060,15 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                     child:
                                                                         SizedBox(
                                                                       width:
-                                                                          50.0,
+                                                                          40.0,
                                                                       height:
-                                                                          50.0,
+                                                                          40.0,
                                                                       child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                        ),
+                                                                          SpinKitFadingCube(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        size:
+                                                                            40.0,
                                                                       ),
                                                                     ),
                                                                   );
@@ -1623,9 +1651,13 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               decoration: BoxDecoration(),
                                                                               child: FlutterFlowDropDown<String>(
                                                                                 controller: _model.dimensionDropDownValueController ??= FormFieldController<String>(null),
-                                                                                options: [
-                                                                                  ''
-                                                                                ],
+                                                                                options: VictoryGroup.giveDimensionCall
+                                                                                    .dimensionList(
+                                                                                      setAIPromptGiveDimensionResponse.jsonBody,
+                                                                                    )!
+                                                                                    .map((e) => e.dimensionName)
+                                                                                    .toList()
+                                                                                    .unique((e) => e),
                                                                                 onChanged: (val) async {
                                                                                   safeSetState(() => _model.dimensionDropDownValue = val);
                                                                                   safeSetState(() {
@@ -1783,9 +1815,13 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               decoration: BoxDecoration(),
                                                                               child: FlutterFlowDropDown<String>(
                                                                                 controller: _model.firstDropDownValueController ??= FormFieldController<String>(null),
-                                                                                options: [
-                                                                                  ''
-                                                                                ],
+                                                                                options: VictoryGroup.giveDimensionCall
+                                                                                    .dimensionList(
+                                                                                      setAIPromptGiveDimensionResponse.jsonBody,
+                                                                                    )!
+                                                                                    .map((e) => e.firstLevelIndex)
+                                                                                    .toList()
+                                                                                    .unique((e) => e),
                                                                                 onChanged: (val) async {
                                                                                   safeSetState(() => _model.firstDropDownValue = val);
                                                                                   safeSetState(() {
@@ -1943,9 +1979,13 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               decoration: BoxDecoration(),
                                                                               child: FlutterFlowDropDown<String>(
                                                                                 controller: _model.secondDropDownValueController ??= FormFieldController<String>(null),
-                                                                                options: [
-                                                                                  ''
-                                                                                ],
+                                                                                options: VictoryGroup.giveDimensionCall
+                                                                                    .dimensionList(
+                                                                                      setAIPromptGiveDimensionResponse.jsonBody,
+                                                                                    )!
+                                                                                    .map((e) => e.secondLevelIndex)
+                                                                                    .toList()
+                                                                                    .unique((e) => e),
                                                                                 onChanged: (val) async {
                                                                                   safeSetState(() => _model.secondDropDownValue = val);
                                                                                   safeSetState(() {
@@ -2103,9 +2143,13 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                               decoration: BoxDecoration(),
                                                                               child: FlutterFlowDropDown<String>(
                                                                                 controller: _model.coreFieldDropDownValueController ??= FormFieldController<String>(null),
-                                                                                options: [
-                                                                                  ''
-                                                                                ],
+                                                                                options: VictoryGroup.giveDimensionCall
+                                                                                    .dimensionList(
+                                                                                      setAIPromptGiveDimensionResponse.jsonBody,
+                                                                                    )!
+                                                                                    .map((e) => e.coreFieldRecall)
+                                                                                    .toList()
+                                                                                    .unique((e) => e),
                                                                                 onChanged: (val) async {
                                                                                   safeSetState(() => _model.coreFieldDropDownValue = val);
                                                                                   safeSetState(() {
@@ -2240,17 +2284,19 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                         child: FFButtonWidget(
                                                           onPressed: () async {
                                                             _model.apiResultDimensionInsertOut =
-                                                                await DimensionGroup
-                                                                    .insertCall
+                                                                await VictoryGroup
+                                                                    .addDimensionCall
                                                                     .call(
-                                                              dimension: _model
+                                                              id: widget!
+                                                                  .asstExamBankID,
+                                                              dimensionName: _model
                                                                   .dimensionTextFieldTextController
                                                                   .text,
-                                                              firstClassification:
+                                                              firstLevelIndex:
                                                                   _model
                                                                       .firstTextFieldTextController
                                                                       .text,
-                                                              secondClassification:
+                                                              secondLevelIndex:
                                                                   _model
                                                                       .secondTextFieldTextController
                                                                       .text,
@@ -2268,6 +2314,15 @@ class _SetAIPromptWidgetState extends State<SetAIPromptWidget> {
                                                                   false;
                                                               safeSetState(
                                                                   () {});
+                                                              safeSetState(() =>
+                                                                  _model.apiRequestCompleter =
+                                                                      null);
+                                                              await _model
+                                                                  .waitForApiRequestCompleted(
+                                                                      minWait:
+                                                                          2,
+                                                                      maxWait:
+                                                                          5);
                                                               ScaffoldMessenger
                                                                       .of(context)
                                                                   .showSnackBar(

@@ -12,10 +12,13 @@ class SubHeaderWidget extends StatefulWidget {
     super.key,
     required this.title,
     bool? showBackBtn,
-  }) : this.showBackBtn = showBackBtn ?? false;
+    String? secTitle,
+  })  : this.showBackBtn = showBackBtn ?? false,
+        this.secTitle = secTitle ?? ' ';
 
   final String? title;
   final bool showBackBtn;
+  final String secTitle;
 
   @override
   State<SubHeaderWidget> createState() => _SubHeaderWidgetState();
@@ -70,6 +73,16 @@ class _SubHeaderWidgetState extends State<SubHeaderWidget> {
           Flexible(
             child: Text(
               widget!.title!,
+              style: FlutterFlowTheme.of(context).headlineSmall.override(
+                    fontFamily: 'Plus Jakarta Sans',
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
+          Flexible(
+            child: Text(
+              widget!.secTitle,
               style: FlutterFlowTheme.of(context).headlineSmall.override(
                     fontFamily: 'Plus Jakarta Sans',
                     letterSpacing: 0.0,

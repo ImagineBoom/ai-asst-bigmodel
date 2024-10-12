@@ -307,6 +307,8 @@ class VictoryGroup {
   static CreateChartCall createChartCall = CreateChartCall();
   static AutoMakeSureAllaiGradeCall autoMakeSureAllaiGradeCall =
       AutoMakeSureAllaiGradeCall();
+  static AddDimensionCall addDimensionCall = AddDimensionCall();
+  static GetDimensionCall getDimensionCall = GetDimensionCall();
 }
 
 class AddquestionCall {
@@ -765,11 +767,15 @@ class GiveDimensionCall {
     );
   }
 
-  List? dimensionList(dynamic response) => getJsonField(
+  List<ExamDimensionStruct>? dimensionList(dynamic response) => (getJsonField(
         response,
         r'''$.exam_dimension_list''',
         true,
-      ) as List?;
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => ExamDimensionStruct.maybeFromMap(x))
+          .withoutNulls
+          .toList();
 }
 
 class GetAIPromptCall {
@@ -876,7 +882,7 @@ class StartAIgradingCall {
       bodyType: BodyType.MULTIPART,
       returnBody: true,
       encodeBodyUtf8: false,
-      decodeUtf8: false,
+      decodeUtf8: true,
       cache: false,
       isStreamingApi: false,
       alwaysAllowBody: false,
@@ -1039,6 +1045,10 @@ class GetOneStuAnswerDetailCall {
         response,
         r'''$.teacher_score_rank''',
       ));
+  String? stuViewClarify(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.stu_view_clarify''',
+      ));
 }
 
 class GetAllQuestionsCall {
@@ -1109,6 +1119,73 @@ class AutoMakeSureAllaiGradeCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class AddDimensionCall {
+  Future<ApiCallResponse> call({
+    String? dimensionName = '',
+    String? firstLevelIndex = '',
+    String? secondLevelIndex = '',
+    String? coreFieldRecall = '',
+    int? id,
+  }) async {
+    final baseUrl = VictoryGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'addDimension',
+      apiUrl: '${baseUrl}/add_dimension',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {
+        'dimension_name': dimensionName,
+        'first_level_index': firstLevelIndex,
+        'second_level_index': secondLevelIndex,
+        'core_field_recall': coreFieldRecall,
+        'id': id,
+      },
+      bodyType: BodyType.MULTIPART,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetDimensionCall {
+  Future<ApiCallResponse> call({
+    int? id,
+  }) async {
+    final baseUrl = VictoryGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'getDimension',
+      apiUrl: '${baseUrl}/get_dimension',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {
+        'id': id,
+      },
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<ExamDimensionStruct>? dimensionList(dynamic response) => (getJsonField(
+        response,
+        r'''$.exam_dimension_list''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => ExamDimensionStruct.maybeFromMap(x))
+          .withoutNulls
+          .toList();
 }
 
 /// End victory Group Code

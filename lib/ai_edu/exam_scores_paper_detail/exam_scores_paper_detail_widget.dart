@@ -173,9 +173,11 @@ class _ExamScoresPaperDetailWidgetState
                                             updateCallback: () =>
                                                 safeSetState(() {}),
                                             child: SubHeaderWidget(
-                                              title: '智能批阅板块-7. 详情审阅<<试题1>>',
+                                              title: '智能批阅板块-7. 详情审阅',
                                               showBackBtn:
                                                   _model.menuModel.showUpgrade,
+                                              secTitle:
+                                                  '<<${FFAppState().selectTest}>>',
                                             ),
                                           ),
                                         ),
@@ -1649,6 +1651,48 @@ class _ExamScoresPaperDetailWidgetState
                                                                                   ),
                                                                                   TextSpan(
                                                                                     text: VictoryGroup.getOneStuAnswerDetailCall.stuCharacteristics(
+                                                                                      examScoresPaperDetailGetOneStuAnswerDetailResponse.jsonBody,
+                                                                                    )!,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 18.0,
+                                                                                    ),
+                                                                                  )
+                                                                                ],
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Plus Jakarta Sans',
+                                                                                      letterSpacing: 0.0,
+                                                                                    ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                10.0),
+                                                                            child:
+                                                                                RichText(
+                                                                              textScaler: MediaQuery.of(context).textScaler,
+                                                                              text: TextSpan(
+                                                                                children: [
+                                                                                  TextSpan(
+                                                                                    text: '学生观点凝练：',
+                                                                                    style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                          fontFamily: 'Plus Jakarta Sans',
+                                                                                          letterSpacing: 0.0,
+                                                                                        ),
+                                                                                  ),
+                                                                                  TextSpan(
+                                                                                    text: '\n',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Plus Jakarta Sans',
+                                                                                          letterSpacing: 0.0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                  ),
+                                                                                  TextSpan(
+                                                                                    text: VictoryGroup.getOneStuAnswerDetailCall.stuViewClarify(
                                                                                       examScoresPaperDetailGetOneStuAnswerDetailResponse.jsonBody,
                                                                                     )!,
                                                                                     style: TextStyle(

@@ -162,6 +162,7 @@ class _CourseSetWidgetState extends State<CourseSetWidget> {
                                                 child: SubHeaderWidget(
                                                   title: '智能批阅板块-2.考试列表',
                                                   showBackBtn: true,
+                                                  secTitle: ' ',
                                                 ),
                                               ),
                                               Container(

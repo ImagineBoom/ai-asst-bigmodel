@@ -183,6 +183,8 @@ class _SetStuAnswerWidgetState extends State<SetStuAnswerWidget> {
                                                   child: SubHeaderWidget(
                                                     title: '智能批阅板块-5. 模拟学生答卷',
                                                     showBackBtn: true,
+                                                    secTitle:
+                                                        '<<${FFAppState().selectTest}>>',
                                                   ),
                                                 ),
                                               ),

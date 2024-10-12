@@ -142,6 +142,8 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                                     ),
                                   }.withoutNulls,
                                 );
+
+                                FFAppState().selectTest = widget!.name!;
                               },
                               text: '①模拟老师出题',
                               options: FFButtonOptions(
@@ -171,7 +173,9 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 40.0, 0.0),
                               child: FFButtonWidget(
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  FFAppState().selectTest = widget!.name!;
+                                },
                                 text: '/上传',
                                 options: FFButtonOptions(
                                   height: 40.0,
@@ -213,6 +217,8 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                                   ),
                                 }.withoutNulls,
                               );
+
+                              FFAppState().selectTest = widget!.name!;
                             },
                             text: '②设置AI分析维度',
                             options: FFButtonOptions(
@@ -249,6 +255,8 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                                     ),
                                   }.withoutNulls,
                                 );
+
+                                FFAppState().selectTest = widget!.name!;
                               },
                               text: '③模拟学生答题',
                               options: FFButtonOptions(
@@ -278,7 +286,9 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 40.0, 0.0),
                               child: FFButtonWidget(
-                                onPressed: () async {},
+                                onPressed: () async {
+                                  FFAppState().selectTest = widget!.name!;
+                                },
                                 text: '/上传',
                                 options: FFButtonOptions(
                                   height: 40.0,
@@ -320,6 +330,8 @@ class _ExamBankItemWidgetState extends State<ExamBankItemWidget> {
                                   ),
                                 }.withoutNulls,
                               );
+
+                              FFAppState().selectTest = widget!.name!;
                             },
                             text: '④人工审阅',
                             options: FFButtonOptions(

@@ -14,10 +14,12 @@ import '/flutter_flow/form_field_controller.dart';
 import 'dart:ui';
 import '/flutter_flow/request_manager.dart';
 
+import 'dart:async';
 import 'set_a_i_prompt_widget.dart' show SetAIPromptWidget;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -27,17 +29,17 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
 
   bool ifPreview = true;
 
-  List<DimensionInfoStruct> examDimensions = [];
-  void addToExamDimensions(DimensionInfoStruct item) =>
+  List<ExamDimensionStruct> examDimensions = [];
+  void addToExamDimensions(ExamDimensionStruct item) =>
       examDimensions.add(item);
-  void removeFromExamDimensions(DimensionInfoStruct item) =>
+  void removeFromExamDimensions(ExamDimensionStruct item) =>
       examDimensions.remove(item);
   void removeAtIndexFromExamDimensions(int index) =>
       examDimensions.removeAt(index);
-  void insertAtIndexInExamDimensions(int index, DimensionInfoStruct item) =>
+  void insertAtIndexInExamDimensions(int index, ExamDimensionStruct item) =>
       examDimensions.insert(index, item);
   void updateExamDimensionsAtIndex(
-          int index, Function(DimensionInfoStruct) updateFn) =>
+          int index, Function(ExamDimensionStruct) updateFn) =>
       examDimensions[index] = updateFn(examDimensions[index]);
 
   bool ifPreviewBanner = true;
@@ -101,8 +103,9 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
   TextEditingController? coreFieldTextFieldTextController;
   String? Function(BuildContext, String?)?
       coreFieldTextFieldTextControllerValidator;
-  // Stores action output result for [Backend Call - API (insert)] action in Button widget.
+  // Stores action output result for [Backend Call - API (addDimension)] action in Button widget.
   ApiCallResponse? apiResultDimensionInsertOut;
+  Completer<ApiCallResponse>? apiRequestCompleter;
 
   /// Query cache managers for this widget.
 
@@ -154,5 +157,21 @@ class SetAIPromptModel extends FlutterFlowModel<SetAIPromptWidget> {
     /// Dispose query cache managers for this widget.
 
     clearGetQuestionCache();
+  }
+
+  /// Additional helper methods.
+  Future waitForApiRequestCompleted({
+    double minWait = 0,
+    double maxWait = double.infinity,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      final timeElapsed = stopwatch.elapsedMilliseconds;
+      final requestComplete = apiRequestCompleter?.isCompleted ?? false;
+      if (timeElapsed > maxWait || (requestComplete && timeElapsed > minWait)) {
+        break;
+      }
+    }
   }
 }

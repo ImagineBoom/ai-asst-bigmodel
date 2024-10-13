@@ -1707,6 +1707,48 @@ class _ExamScoresPaperDetailWidgetState
                                                                               ),
                                                                             ),
                                                                           ),
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                10.0),
+                                                                            child:
+                                                                                RichText(
+                                                                              textScaler: MediaQuery.of(context).textScaler,
+                                                                              text: TextSpan(
+                                                                                children: [
+                                                                                  TextSpan(
+                                                                                    text: '学生答案优化建议：',
+                                                                                    style: FlutterFlowTheme.of(context).titleLarge.override(
+                                                                                          fontFamily: 'Plus Jakarta Sans',
+                                                                                          letterSpacing: 0.0,
+                                                                                        ),
+                                                                                  ),
+                                                                                  TextSpan(
+                                                                                    text: '\n',
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Plus Jakarta Sans',
+                                                                                          letterSpacing: 0.0,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                        ),
+                                                                                  ),
+                                                                                  TextSpan(
+                                                                                    text: VictoryGroup.getOneStuAnswerDetailCall.stuAnswerOptimization(
+                                                                                      examScoresPaperDetailGetOneStuAnswerDetailResponse.jsonBody,
+                                                                                    )!,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 18.0,
+                                                                                    ),
+                                                                                  )
+                                                                                ],
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      fontFamily: 'Plus Jakarta Sans',
+                                                                                      letterSpacing: 0.0,
+                                                                                    ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                           Text(
                                                                             '学生答案命中观点列表(观点得分)：',
                                                                             style: FlutterFlowTheme.of(context).titleLarge.override(

@@ -1049,6 +1049,11 @@ class GetOneStuAnswerDetailCall {
         response,
         r'''$.stu_view_clarify''',
       ));
+  String? stuAnswerOptimization(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.stu_answer_optimization''',
+      ));
 }
 
 class GetAllQuestionsCall {

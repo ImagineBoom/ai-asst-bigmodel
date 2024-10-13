@@ -28,6 +28,7 @@ class StuAnswerListStruct extends BaseStruct {
     double? stuAnswerPlagiarismSuspicious,
     double? stuAnswerAiSuspicious,
     String? stuViewClarify,
+    String? stuAnswerOptimization,
   })  : _aiScoreReason = aiScoreReason,
         _aiScoreTags = aiScoreTags,
         _aiStatus = aiStatus,
@@ -49,7 +50,8 @@ class StuAnswerListStruct extends BaseStruct {
         _teacherScore = teacherScore,
         _stuAnswerPlagiarismSuspicious = stuAnswerPlagiarismSuspicious,
         _stuAnswerAiSuspicious = stuAnswerAiSuspicious,
-        _stuViewClarify = stuViewClarify;
+        _stuViewClarify = stuViewClarify,
+        _stuAnswerOptimization = stuAnswerOptimization;
 
   // "ai_score_reason" field.
   String? _aiScoreReason;
@@ -239,6 +241,13 @@ class StuAnswerListStruct extends BaseStruct {
 
   bool hasStuViewClarify() => _stuViewClarify != null;
 
+  // "stu_answer_optimization" field.
+  String? _stuAnswerOptimization;
+  String get stuAnswerOptimization => _stuAnswerOptimization ?? '';
+  set stuAnswerOptimization(String? val) => _stuAnswerOptimization = val;
+
+  bool hasStuAnswerOptimization() => _stuAnswerOptimization != null;
+
   static StuAnswerListStruct fromMap(Map<String, dynamic> data) =>
       StuAnswerListStruct(
         aiScoreReason: data['ai_score_reason'] as String?,
@@ -267,6 +276,7 @@ class StuAnswerListStruct extends BaseStruct {
         stuAnswerAiSuspicious:
             castToType<double>(data['stu_answer_ai_suspicious']),
         stuViewClarify: data['stu_view_clarify'] as String?,
+        stuAnswerOptimization: data['stu_answer_optimization'] as String?,
       );
 
   static StuAnswerListStruct? maybeFromMap(dynamic data) => data is Map
@@ -297,6 +307,7 @@ class StuAnswerListStruct extends BaseStruct {
         'stu_answer_plagiarism_suspicious': _stuAnswerPlagiarismSuspicious,
         'stu_answer_ai_suspicious': _stuAnswerAiSuspicious,
         'stu_view_clarify': _stuViewClarify,
+        'stu_answer_optimization': _stuAnswerOptimization,
       }.withoutNulls;
 
   @override
@@ -386,6 +397,10 @@ class StuAnswerListStruct extends BaseStruct {
         ),
         'stu_view_clarify': serializeParam(
           _stuViewClarify,
+          ParamType.String,
+        ),
+        'stu_answer_optimization': serializeParam(
+          _stuAnswerOptimization,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -497,6 +512,11 @@ class StuAnswerListStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        stuAnswerOptimization: deserializeParam(
+          data['stu_answer_optimization'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -528,7 +548,8 @@ class StuAnswerListStruct extends BaseStruct {
         teacherScore == other.teacherScore &&
         stuAnswerPlagiarismSuspicious == other.stuAnswerPlagiarismSuspicious &&
         stuAnswerAiSuspicious == other.stuAnswerAiSuspicious &&
-        stuViewClarify == other.stuViewClarify;
+        stuViewClarify == other.stuViewClarify &&
+        stuAnswerOptimization == other.stuAnswerOptimization;
   }
 
   @override
@@ -553,7 +574,8 @@ class StuAnswerListStruct extends BaseStruct {
         teacherScore,
         stuAnswerPlagiarismSuspicious,
         stuAnswerAiSuspicious,
-        stuViewClarify
+        stuViewClarify,
+        stuAnswerOptimization
       ]);
 }
 
@@ -576,6 +598,7 @@ StuAnswerListStruct createStuAnswerListStruct({
   double? stuAnswerPlagiarismSuspicious,
   double? stuAnswerAiSuspicious,
   String? stuViewClarify,
+  String? stuAnswerOptimization,
 }) =>
     StuAnswerListStruct(
       aiScoreReason: aiScoreReason,
@@ -596,4 +619,5 @@ StuAnswerListStruct createStuAnswerListStruct({
       stuAnswerPlagiarismSuspicious: stuAnswerPlagiarismSuspicious,
       stuAnswerAiSuspicious: stuAnswerAiSuspicious,
       stuViewClarify: stuViewClarify,
+      stuAnswerOptimization: stuAnswerOptimization,
     );

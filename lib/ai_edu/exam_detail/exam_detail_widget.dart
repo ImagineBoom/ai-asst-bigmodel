@@ -2222,68 +2222,81 @@ class _ExamDetailWidgetState extends State<ExamDetailWidget> {
                                                                     MainAxisAlignment
                                                                         .start,
                                                                 children: [
-                                                                  Text(
-                                                                    (mainWordsIndex +
-                                                                            1)
-                                                                        .toString(),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Plus Jakarta Sans',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                  ),
-                                                                  Text(
-                                                                    mainWordsItem,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Plus Jakarta Sans',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                  ),
                                                                   Container(
-                                                                    width: (VictoryGroup
-                                                                            .getQuestionCall
-                                                                            .mainWordDistributionCount(
-                                                                      examDetailGetQuestionResponse
-                                                                          .jsonBody,
-                                                                    )?[mainWordsIndex])
-                                                                        ?.toDouble(),
-                                                                    height:
-                                                                        10.0,
-                                                                    constraints:
-                                                                        BoxConstraints(
-                                                                      minWidth:
-                                                                          600.0,
-                                                                    ),
+                                                                    width:
+                                                                        200.0,
                                                                     decoration:
                                                                         BoxDecoration(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .primary,
+                                                                          .secondaryBackground,
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      children: [
+                                                                        Text(
+                                                                          (mainWordsIndex + 1)
+                                                                              .toString(),
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Plus Jakarta Sans',
+                                                                                letterSpacing: 0.0,
+                                                                              ),
+                                                                        ),
+                                                                        Text(
+                                                                          mainWordsItem,
+                                                                          style: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .override(
+                                                                                fontFamily: 'Plus Jakarta Sans',
+                                                                                letterSpacing: 0.0,
+                                                                              ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                  Text(
-                                                                    '${(VictoryGroup.getQuestionCall.mainWordDistributionCount(
-                                                                      examDetailGetQuestionResponse
-                                                                          .jsonBody,
-                                                                    )?[mainWordsIndex])?.toString()}次',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Plus Jakarta Sans',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                  Flexible(
+                                                                    child:
+                                                                        Container(
+                                                                      width: (VictoryGroup
+                                                                              .getQuestionCall
+                                                                              .mainWordDistributionCount(
+                                                                            examDetailGetQuestionResponse.jsonBody,
+                                                                          )![mainWordsIndex]) *
+                                                                          35,
+                                                                      height:
+                                                                          10.0,
+                                                                      constraints:
+                                                                          BoxConstraints(
+                                                                        maxWidth:
+                                                                            600.0,
+                                                                      ),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Flexible(
+                                                                    child: Text(
+                                                                      '${(VictoryGroup.getQuestionCall.mainWordDistributionCount(
+                                                                        examDetailGetQuestionResponse
+                                                                            .jsonBody,
+                                                                      )?[mainWordsIndex])?.toString()}次',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Plus Jakarta Sans',
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                          ),
+                                                                    ),
                                                                   ),
                                                                 ].divide(SizedBox(
                                                                     width:
